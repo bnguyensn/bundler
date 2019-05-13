@@ -1,0 +1,15 @@
+{
+  "name": "@bnguyensn/bundler",
+  "version": "1.0.0",
+  "description": "Standard bundler for my web apps",
+  "main": "index.js",
+  "bin": "./index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "@bnguyensn",
+  "license": "MIT",
+  "devDependencies": {
+    "shelljs": "^0.8.3"
+  }
+}
