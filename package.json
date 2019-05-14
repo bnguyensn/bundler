@@ -9,6 +9,10 @@
   },
   "author": "@bnguyensn",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bnguyensn/bundler.git"
+  },
   "devDependencies": {
     "cssnano": "^4.1.10",
     "html-webpack-plugin": "^3.2.0",
