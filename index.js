@@ -26,7 +26,7 @@ const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 
 const globals = {
   ENTRY_PATH: 'src/index.js',
-  URL_LOADER_SIZE_LIMIT: 10240, // 10kb
+  URL_LOADER_SIZE_LIMIT: 1024 * 10, // 10kb
   HTML_TEMPLATE_DEV_PATH: 'src/html-templates',
   HTML_TEMPLATE_PROD_PATH: 'src/html-templates/index_prod.html',
   DEV_SERVER_PORT: 8080,
