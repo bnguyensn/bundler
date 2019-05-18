@@ -26,8 +26,10 @@ module.exports = (config) => {
     // The top-level "dist" folder only contains the index.html file. This
     // index.html file is the one served by our server (e.g. Express) client
     // browsers. This "static" folder helps with organising files.
+    // The path of the index.html file is controlled by HtmlWebpackPlugin,
+    // further down in this config.
     output: {
-      path: path.join(config.dirname, 'dist/static'),
+      path: path.join(config.dirname, config.PROD_ASSETS_PATH),
 
       // This public URL is prefixed to every URL created by webpack. It is
       // the URL of our output.path from the view of the HTML page.
@@ -229,6 +231,8 @@ module.exports = (config) => {
                 config.HTML_TEMPLATE_PROD_PATH,
               ),
               chunks: ['index', 'vendors', 'runtime~index'],
+
+              // The default path is per output.path
               filename: '../index.html',
             }),
 

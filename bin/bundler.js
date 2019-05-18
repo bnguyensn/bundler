@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 const path = require('path');
-const spawn = require('cross-spawn');
+const shell = require('shelljs');
 const chalk = require('chalk');
 const mode = process.argv[2];
 const webpack = require('webpack');
@@ -16,6 +16,8 @@ const config = {
   dirname: path.resolve(process.cwd()),
   mode: mode === 'prod' ? 'production' : 'development',
   ENTRY_PATH: 'src/index.js',
+  PROD_PATH: 'dist',
+  PROD_ASSETS_PATH: 'dist/static',
   URL_LOADER_SIZE_LIMIT: 1024 * 10, // 10kb
   HTML_TEMPLATE_DEV_PATH: 'src/html-templates',
   HTML_TEMPLATE_PROD_PATH: 'src/html-templates/index_prod.html',
@@ -27,6 +29,8 @@ const webpackConfig = webpackConfigFn(config);
 const compiler = webpack(webpackConfig);
 
 if (mode === 'prod') {
+  shell.rm('-rf', path.resolve(config.dirname, config.PROD_PATH));
+
   compiler.run((err, stats) => {
     if (err) {
       console.error(err.stack || err);

@@ -6,8 +6,8 @@
   "bin": "./bin/bundler.js",
   "scripts": {
     "test": "test",
-    "test:dev": "cd tests && node ../bin/bundler.js dev",
-    "test:prod": "rimraf ./tests/dist && ../bin/bundler.js prod"
+    "test:dev": "cd tests && node ../bin/bundler.js dev && cd ..",
+    "test:prod": "cd tests && node ../bin/bundler.js prod && cd .."
   },
   "author": "@bnguyensn",
   "license": "MIT",
@@ -32,7 +32,7 @@
     "postcss-loader": "^3.0.0",
     "prettier": "^1.17.1",
     "raw-loader": "^2.0.0",
-    "rimraf": "^2.6.3",
+    "shelljs": "^0.8.3",
     "style-loader": "^0.23.1",
     "svg-url-loader": "^2.3.2",
     "terser-webpack-plugin": "^1.2.3",
