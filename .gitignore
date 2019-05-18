@@ -3,7 +3,7 @@
 # macOS
 .DS_store
 
-# ########## EDITOR ########## #
+# ########## IDE ########## #
 
 # IntelliJ
 .idea
@@ -29,14 +29,10 @@ node_modules
 
 # ########## TESTING ########## #
 
-coverage
-test
-tests
+tests/dist
 
 # ########## BUILD & PRODUCTION ########## #
 
-build
-dist
 
 # admin
 admin

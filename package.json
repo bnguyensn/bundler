@@ -1,11 +1,13 @@
 {
   "name": "@bnguyensn/bundler",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "Standard bundler for my web apps",
   "main": "index.js",
   "bin": "./index.js",
   "scripts": {
-    "test": "test"
+    "test": "test",
+    "test:dev": "webpack-dev-server --config ./tests/webpack.config.js --progress --mode=development",
+    "test:prod": "rimraf ./tests/dist && webpack --config ./tests/webpack.config.js --progress --mode=production"
   },
   "author": "@bnguyensn",
   "license": "MIT",
@@ -14,15 +16,30 @@
     "url": "https://github.com/bnguyensn/bundler.git"
   },
   "devDependencies": {
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
+    "autoprefixer": "^9.5.1",
+    "babel-loader": "^8.0.6",
+    "css-loader": "^2.1.1",
     "cssnano": "^4.1.10",
+    "file-loader": "^3.0.1",
     "html-webpack-plugin": "^3.2.0",
+    "image-webpack-loader": "^4.6.0",
     "mini-css-extract-plugin": "^0.6.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss-loader": "^3.0.0",
+    "prettier": "^1.17.1",
+    "raw-loader": "^2.0.0",
+    "style-loader": "^0.23.1",
+    "svg-url-loader": "^2.3.2",
     "terser-webpack-plugin": "^1.2.3",
+    "url-loader": "^1.1.2",
+    "webpack": "^4.31.0",
     "webpack-bundle-analyzer": "^3.3.2",
+    "webpack-cli": "^3.3.2",
+    "webpack-dev-server": "^3.4.1",
     "webpack-manifest-plugin": "^2.0.4",
-    "workbox-webpack-plugin": "^4.3.1",
-    "prettier": "^1.17.1"
+    "workbox-webpack-plugin": "^4.3.1"
   },
   "dependencies": {}
 }
