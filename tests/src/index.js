@@ -13,6 +13,13 @@ function brGenerator() {
   return document.createElement('br');
 }
 
+function textGenerator(text) {
+  const div = document.createElement('div');
+  div.textContent = text;
+
+  return div
+}
+
 const imgCatLarge = imgGenerator(catLarge);
 const imgCatSmall = imgGenerator(catSmall);
 
@@ -20,6 +27,8 @@ document.body.appendChild(brGenerator());
 document.body.appendChild(imgCatLarge);
 document.body.appendChild(brGenerator());
 document.body.appendChild(imgCatSmall);
+document.body.appendChild(brGenerator());
+document.body.appendChild(textGenerator('Hello, world!'));
 
 if (module.hot) {
   module.hot.accept('./index.js', () => {

@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+const path = require('path');
 const spawn = require('cross-spawn');
 const chalk = require('chalk');
 const mode = process.argv[2];
@@ -12,7 +13,7 @@ console.log(`Mode: ${mode}`);
 console.log('**********');
 
 const config = {
-  dirname: process.cwd(),
+  dirname: path.resolve(process.cwd()),
   mode: mode === 'prod' ? 'production' : 'development',
   ENTRY_PATH: 'src/index.js',
   URL_LOADER_SIZE_LIMIT: 1024 * 10, // 10kb

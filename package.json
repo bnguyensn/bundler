@@ -6,8 +6,8 @@
   "bin": "./bin/bundler.js",
   "scripts": {
     "test": "test",
-    "test:dev": "webpack-dev-server --config ./tests/webpack.config.js --progress --mode=development",
-    "test:prod": "rimraf ./tests/dist && webpack --config ./tests/webpack.config.js --progress --mode=production"
+    "test:dev": "cd tests && node ../bin/bundler.js dev",
+    "test:prod": "rimraf ./tests/dist && ../bin/bundler.js prod"
   },
   "author": "@bnguyensn",
   "license": "MIT",
@@ -15,7 +15,6 @@
     "type": "git",
     "url": "https://github.com/bnguyensn/bundler.git"
   },
-  "devDependencies": {},
   "dependencies": {
     "@babel/core": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
@@ -33,6 +32,7 @@
     "postcss-loader": "^3.0.0",
     "prettier": "^1.17.1",
     "raw-loader": "^2.0.0",
+    "rimraf": "^2.6.3",
     "style-loader": "^0.23.1",
     "svg-url-loader": "^2.3.2",
     "terser-webpack-plugin": "^1.2.3",

@@ -273,6 +273,8 @@ module.exports = (config) => {
         config.HTML_TEMPLATE_DEV_PATH,
       ),
 
+      publicPath: '/',
+
       // Enable gzip compression
       compress: true,
 
