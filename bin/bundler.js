@@ -1,35 +1,58 @@
 #!/usr/bin/env node
 
 const path = require('path');
+const dirname = path.resolve(process.cwd());
+const userConfig = require(path.resolve(dirname, 'package.json'))[
+  '@bnguyensn/bundler'
+];
 const shell = require('shelljs');
 const chalk = require('chalk');
 const mode = process.argv[2];
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const webpackConfigFn = require('../config');
+const webpackConfigFn = require('../index');
 
-console.log(`Current directory: ${process.cwd()}`);
-console.log(`Mode: ${mode}`);
-console.log('**********');
-
-const config = {
-  dirname: path.resolve(process.cwd()),
+const generalConfig = {
+  // Not configurable via package.json
+  dirname,
   mode: mode === 'prod' ? 'production' : 'development',
-  ENTRY_PATH: 'src/index.js',
-  PROD_PATH: 'dist',
-  PROD_ASSETS_PATH: 'dist/static',
-  URL_LOADER_SIZE_LIMIT: 1024 * 10, // 10kb
-  HTML_TEMPLATE_DEV_PATH: 'src/html-templates',
-  HTML_TEMPLATE_PROD_PATH: 'src/html-templates/index_prod.html',
-  DEV_SERVER_PORT: 8080,
+  url_loader_size_limit: 1024 * 10, // 10kb
+
+  // Configurable via package.json
+  entry_index: userConfig.entry || 'src/index.js',
+  output_html_template_dev_path:
+    userConfig.html_template_dev || 'src/html-templates',
+  output_html_template_prod_path:
+    userConfig.html_template_prod || 'src/html-templates/index_prod.html',
+  dev_server_port: userConfig.dev_server_port || 8080,
 };
 
-const webpackConfig = webpackConfigFn(config);
+const webpackConfig = webpackConfigFn(generalConfig);
+
+console.log('');
+console.log(chalk.blue('Running bundler...'));
+console.log(`Mode: ${chalk.blue(mode)}`);
+console.log(`Current directory: ${chalk.blue(dirname)}`);
+console.log('');
 
 const compiler = webpack(webpackConfig);
 
 if (mode === 'prod') {
-  shell.rm('-rf', path.resolve(config.dirname, config.PROD_PATH));
+  /*
+   * The output directory structure is:
+   * dist
+   * |--index.html
+   * |--static
+   * |  |--// built assets...
+   * webpackRecords.json
+   *
+   * The commands below remove the top-level 'dist' folder as well as the
+   * webpackRecords.json before every production build. These paths are based on
+   * configurations in webpackConfig. If you change webpackConfig paths, you
+   * should change these removers as well.
+   * */
+  shell.rm('-rf', path.resolve(generalConfig.dirname, 'dist'));
+  shell.rm('-rf', path.resolve(generalConfig.dirname, 'webpackRecords.json'));
 
   compiler.run((err, stats) => {
     if (err) {
@@ -47,7 +70,7 @@ if (mode === 'prod') {
 
   const server = new WebpackDevServer(compiler, webpackDevServerConfig);
 
-  server.listen(config.DEV_SERVER_PORT, '127.0.0.1', () => {
+  server.listen(generalConfig.dev_server_port, '127.0.0.1', () => {
     console.log(
       chalk.greenBright(`Starting webpack-dev-server on http://localhost:8080`),
     );

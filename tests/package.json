@@ -1,0 +1,8 @@
+{
+  "@bnguyensn/bundler": {
+    "entry": "src/index.js",
+    "html_template_dev": "src/html-templates",
+    "html_template_prod": "src/html-templates/index_prod.html",
+    "dev_server_port": 8080
+  }
+}

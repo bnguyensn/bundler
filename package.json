@@ -15,9 +15,20 @@
     "type": "git",
     "url": "https://github.com/bnguyensn/bundler.git"
   },
+  "devDependencies": {
+    "jest": "^24.8.0",
+    "prettier": "^1.17.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  },
   "dependencies": {
     "@babel/core": "^7.4.4",
+    "@babel/plugin-proposal-class-properties": "^7.4.4",
+    "@babel/plugin-proposal-object-rest-spread": "^7.4.4",
+    "@babel/plugin-syntax-dynamic-import": "^7.2.0",
     "@babel/preset-env": "^7.4.4",
+    "@babel/preset-flow": "^7.0.0",
+    "@babel/preset-react": "^7.0.0",
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.6",
     "chalk": "^2.4.2",
@@ -30,7 +41,6 @@
     "mini-css-extract-plugin": "^0.6.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
-    "prettier": "^1.17.1",
     "raw-loader": "^2.0.0",
     "shelljs": "^0.8.3",
     "style-loader": "^0.23.1",
@@ -43,6 +53,27 @@
     "webpack-dev-server": "^3.4.1",
     "webpack-manifest-plugin": "^2.0.4",
     "workbox-webpack-plugin": "^4.3.1"
+  },
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "modules": false,
+          "targets": {
+            "node": "current"
+          }
+        }
+      ],
+      "@babel/preset-react",
+      "@babel/preset-flow"
+    ],
+    "plugins": [
+      "react-hot-loader/babel",
+      "@babel/syntax-dynamic-import",
+      "@babel/plugin-proposal-class-properties",
+      "@babel/plugin-proposal-object-rest-spread"
+    ]
   },
   "postcss": {
     "plugins": {
