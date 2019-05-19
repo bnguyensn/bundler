@@ -19,12 +19,13 @@ const generalConfig = {
   url_loader_size_limit: 1024 * 10, // 10kb
 
   // Configurable via package.json
-  entry_index: userConfig.entry || 'src/index.js',
+  entry_index: (userConfig && userConfig.entry) || 'src/index.js',
   output_html_template_dev_path:
-    userConfig.html_template_dev || 'src/html-templates',
+    (userConfig && userConfig.html_template_dev) || 'src/html-templates',
   output_html_template_prod_path:
-    userConfig.html_template_prod || 'src/html-templates/index_prod.html',
-  dev_server_port: userConfig.dev_server_port || 8080,
+    (userConfig && userConfig.html_template_prod) ||
+    'src/html-templates/index_prod.html',
+  dev_server_port: (userConfig && userConfig.dev_server_port) || 8080,
 };
 
 const webpackConfig = webpackConfigFn(generalConfig);
