@@ -17,9 +17,7 @@
   },
   "devDependencies": {
     "jest": "^24.8.0",
-    "prettier": "^1.17.1",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "prettier": "^1.17.1"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
@@ -42,6 +40,8 @@
     "optimize-css-assets-webpack-plugin": "^5.0.1",
     "postcss-loader": "^3.0.0",
     "raw-loader": "^2.0.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
     "shelljs": "^0.8.3",
     "style-loader": "^0.23.1",
     "svg-url-loader": "^2.3.2",
