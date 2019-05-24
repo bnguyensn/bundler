@@ -38,12 +38,14 @@
   "chunks": {
     "byName": {
       "index": 0,
-      "runtime": 1
+      "runtime": 1,
+      "vendors": 2
     },
     "bySource": {},
     "usedIds": [
       0,
-      1
+      1,
+      2
     ]
   }
 }

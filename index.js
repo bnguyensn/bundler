@@ -1,13 +1,17 @@
 /**
- * This file exports a webpack config object. The executable at ./bin/bundler.js
- * use this object to run the build process.
+ * This file exports a function that that returns a webpack config object. The
+ * parameters are variables that are only known at runtime.
  * */
 
+// Core packages
 const path = require('path');
 const webpack = require('webpack');
+// Babel
+const babelOptions = require('./package')['babel'];
+// PLugins
 const ManifestPlugin = require('webpack-manifest-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const cssnano = require('cssnano');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -15,8 +19,18 @@ const WorkboxPlugin = require('workbox-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 
-module.exports = config => {
-  const devMode = config.mode === 'development';
+const config = {
+  url_loader_size_limit: 1024 * 10, // 10kb
+};
+
+/**
+ * Return a webpack config object
+ * @param {Object} runtimeConfig: an object containing variables only known at
+ * runtime
+ * @returns {Object}: a webpack config object
+ * */
+module.exports = runtimeConfig => {
+  const devMode = runtimeConfig.mode === 'development';
 
   return {
     mode: devMode ? 'development' : 'production',
@@ -24,7 +38,7 @@ module.exports = config => {
     // We are building a Single-Page Application, thus only one entry is needed.
     // More entries can be specified for Multi-Page Applications.
     entry: {
-      index: path.join(config.dirname, config.entry_index),
+      index: path.join(runtimeConfig.dirname, runtimeConfig.entry_index),
     },
 
     // Our build process puts all assets (.js, .css, etc.) in a "static" folder.
@@ -34,7 +48,7 @@ module.exports = config => {
     // The path of the index.html file is controlled by HtmlWebpackPlugin,
     // further down in this config.
     output: {
-      path: path.join(config.dirname, 'dist/static'),
+      path: path.join(runtimeConfig.dirname, 'dist/static'),
 
       // This public URL is prefixed to every URL created by webpack. It is
       // the URL of our output.path from the view of the HTML page.
@@ -68,7 +82,7 @@ module.exports = config => {
         // babel-loader allows transpiling JavaScript using Babel and webpack.
         {
           test: /\.(js|jsx)$/,
-          use: 'babel-loader',
+          use: { loader: 'babel-loader', options: babelOptions },
           exclude: /node_modules/,
         },
 
@@ -115,8 +129,8 @@ module.exports = config => {
           // The solution was suggested by @sokra:
           // https://github.com/webpack/webpack/issues/2031#issuecomment-183378107
           include: [
-            path.resolve(config.dirname, 'src'),
-            path.resolve(config.dirname, 'node_modules/normalize.css'),
+            path.resolve(runtimeConfig.dirname, 'src'),
+            path.resolve(runtimeConfig.dirname, 'node_modules/normalize.css'),
           ],
         },
 
@@ -232,8 +246,8 @@ module.exports = config => {
             // *** HTML Creation (production) ***
             new HtmlWebpackPlugin({
               template: path.resolve(
-                config.dirname,
-                config.output_html_template_prod_path,
+                runtimeConfig.dirname,
+                runtimeConfig.output_html_template_prod_path,
               ),
               chunks: ['index', 'vendors', 'runtime~index'],
 
@@ -278,8 +292,8 @@ module.exports = config => {
       // This stores the location of the "index.html" for webpack-dev-server.
       // Default to the current working directory.
       contentBase: path.join(
-        config.dirname,
-        config.output_html_template_dev_path,
+        runtimeConfig.dirname,
+        runtimeConfig.output_html_template_dev_path,
       ),
 
       publicPath: '/',
@@ -287,7 +301,7 @@ module.exports = config => {
       // Enable gzip compression
       compress: true,
 
-      port: config.dev_server_port,
+      port: runtimeConfig.dev_server_port,
 
       // Show a full-screen overlay in the browser when there are compiler
       // errors.
@@ -400,12 +414,12 @@ module.exports = config => {
     // This points to the base directory that contains the entry files. By
     // default the current directory is used.
     // https://webpack.js.org/configuration/entry-context/#context
-    context: config.dirname,
+    context: runtimeConfig.dirname,
 
     // webpack records are pieces of data that store module identifiers across
     // multiple builds. They can be used to track how modules change between
     // builds. webpack records are useful for monitoring whether our output
     // chunks are achieving the intended caching behaviours.
-    recordsPath: path.join(config.dirname, 'webpackRecords.json'),
+    recordsPath: path.join(runtimeConfig.dirname, 'webpackRecords.json'),
   };
 };

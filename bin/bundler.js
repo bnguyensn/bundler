@@ -1,22 +1,24 @@
 #!/usr/bin/env node
 
+// Core packages
 const path = require('path');
-const dirname = path.resolve(process.cwd());
-const userConfig = require(path.resolve(dirname, 'package.json'))[
-  '@bnguyensn/bundler'
-];
 const shell = require('shelljs');
 const chalk = require('chalk');
-const mode = process.argv[2];
+// webpack
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const webpackConfigFn = require('../index');
+// Runtime variables
+const userDirname = path.resolve(process.cwd());
+const userConfig = require(path.resolve(userDirname, 'package.json'))[
+  '@bnguyensn/bundler'
+];
+const mode = process.argv[2];
 
-const generalConfig = {
+const runtimeConfig = {
   // Not configurable via package.json
-  dirname,
+  dirname: userDirname,
   mode: mode === 'prod' ? 'production' : 'development',
-  url_loader_size_limit: 1024 * 10, // 10kb
 
   // Configurable via package.json
   entry_index: (userConfig && userConfig.entry) || 'src/index.js',
@@ -28,12 +30,12 @@ const generalConfig = {
   dev_server_port: (userConfig && userConfig.dev_server_port) || 8080,
 };
 
-const webpackConfig = webpackConfigFn(generalConfig);
+const webpackConfig = webpackConfigFn(runtimeConfig);
 
 console.log('');
 console.log(chalk.blue('Running bundler...'));
 console.log(`Mode: ${chalk.blue(mode)}`);
-console.log(`Current directory: ${chalk.blue(dirname)}`);
+console.log(`Current directory: ${chalk.blue(userDirname)}`);
 console.log('');
 
 const compiler = webpack(webpackConfig);
@@ -52,8 +54,8 @@ if (mode === 'prod') {
    * configurations in webpackConfig. If you change webpackConfig paths, you
    * should change these removers as well.
    * */
-  shell.rm('-rf', path.resolve(generalConfig.dirname, 'dist'));
-  shell.rm('-rf', path.resolve(generalConfig.dirname, 'webpackRecords.json'));
+  shell.rm('-rf', path.resolve(runtimeConfig.dirname, 'dist'));
+  shell.rm('-rf', path.resolve(runtimeConfig.dirname, 'webpackRecords.json'));
 
   compiler.run((err, stats) => {
     if (err) {
@@ -71,7 +73,7 @@ if (mode === 'prod') {
 
   const server = new WebpackDevServer(compiler, webpackDevServerConfig);
 
-  server.listen(generalConfig.dev_server_port, '127.0.0.1', () => {
+  server.listen(runtimeConfig.dev_server_port, '127.0.0.1', () => {
     console.log(
       chalk.greenBright(`Starting webpack-dev-server on http://localhost:8080`),
     );
