@@ -5,7 +5,7 @@ A standard build tool for my single-page web applications.
 ## Install
 
 ```bash
-// Using npm 
+// Using npm
 npm i -D @bnguyensn/bundler
 
 // Using yarn
@@ -39,10 +39,20 @@ Create a `@bnguyensn/bundler` section in your `package.json`:
     // Default values are shown below
     "entry": "src/index.js",
     "output": "dist/static",
-    "output_html": "../index.html"   
+    "output_html": "../index.html"
   }
 }
 ```
+
+## How it works
+
+The package exports the `bundler.js` executable in `bin`.
+
+This executable, when runs, will either start a `webpack-dev-server` for development or build a production build using configurations from:
+ 
+* The executable itself
+* The package's `index.js` (the package's webpack configuration file)
+* The user's `package.json`
 
 ## Development
 
@@ -50,6 +60,7 @@ Create a `@bnguyensn/bundler` section in your `package.json`:
 
 `test:dev` test a dev run
 
-`test:prod` test a production build
+`test:prod` test a production build. Note that the process will create a `node_modules/.cache/terser-webpack-plugin` folder. This just is `terser-webpack-plugin` caching its build results to improve build performance.
 
 The build tool's entry point is in `bin/bundler.js`. Start from there.
+
