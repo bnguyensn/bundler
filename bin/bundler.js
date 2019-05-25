@@ -75,7 +75,11 @@ if (mode === 'prod') {
 
   server.listen(runtimeConfig.dev_server_port, '127.0.0.1', () => {
     console.log(
-      chalk.greenBright(`Starting webpack-dev-server on http://localhost:8080`),
+      chalk.greenBright(
+        `Starting webpack-dev-server on http://localhost:${
+          runtimeConfig.dev_server_port
+        }`,
+      ),
     );
   });
 }
