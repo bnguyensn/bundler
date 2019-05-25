@@ -1,3 +1,10 @@
+/*
+ * This line imports normalize.css rules that match our browserslist field. It
+ * is enabled by postcss-normalize.
+ * https://github.com/csstools/postcss-normalize
+ */
+@import-normalize;
+
 html {
   background-color: #b2dfdb;
 }

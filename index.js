@@ -12,6 +12,7 @@ const babelOptions = require('./package')['babel'];
 const ManifestPlugin = require('webpack-manifest-plugin');
 const cssnano = require('cssnano');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const postcssNormalize = require('postcss-normalize');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -121,7 +122,18 @@ module.exports = runtimeConfig => {
             // compatibility with its autoprefixer plugin.
             // Both development and production use the same 3rd loader.
             // https://github.com/postcss/postcss-loader
-            'postcss-loader',
+            {
+              loader: 'postcss-loader',
+              options: {
+                plugins: () => [
+                  // postcss-normalize lets you use the parts of normalize.css
+                  // you need from the browserlist field. Use this by adding an
+                  // @import-normalize; line at the top of your .css file.
+                  // https://github.com/csstools/postcss-normalize
+                  postcssNormalize()
+                ],
+              },
+            },
           ],
 
           // Because we are importing normalize.css from within node_modules,
@@ -276,7 +288,10 @@ module.exports = runtimeConfig => {
             // Visualise webpack output file sizes with an interactive zoomable
             // treemap.
             // https://github.com/webpack-contrib/webpack-bundle-analyzer
-            new BundleAnalyzerPlugin(),
+            new BundleAnalyzerPlugin({
+              // Don't open report in default browser automatically
+              openAnalyzer: false,
+            }),
           ]),
     ],
 
