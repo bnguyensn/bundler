@@ -9,6 +9,12 @@ html {
   background-color: #b2dfdb;
 }
 
-img {
+img, svg {
   display: block;
+}
+
+.has-svg-background {
+  width: 256px;
+  height: 256px;
+  background: url('../svg/javascript-logo.svg');
 }

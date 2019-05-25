@@ -130,20 +130,18 @@ module.exports = runtimeConfig => {
                   // you need from the browserlist field. Use this by adding an
                   // @import-normalize; line at the top of your .css file.
                   // https://github.com/csstools/postcss-normalize
-                  postcssNormalize()
+                  postcssNormalize(),
                 ],
               },
             },
           ],
 
-          // Because we are importing normalize.css from within node_modules,
-          // we can't use the normal exclude: /node_modules/
-          // The solution was suggested by @sokra:
+          // Note that if postcss-normalize is not used (i.e. normalize.css is
+          // imported via import 'normalize.css', then we can't use
+          // exclude: /node_modules/
+          // Instead, use the solution suggested by @sokra below:
           // https://github.com/webpack/webpack/issues/2031#issuecomment-183378107
-          include: [
-            path.resolve(runtimeConfig.dirname, 'src'),
-            path.resolve(runtimeConfig.dirname, 'node_modules/normalize.css'),
-          ],
+          exclude: /node_modules/,
         },
 
         // *** Images ***
@@ -165,19 +163,36 @@ module.exports = runtimeConfig => {
         },
 
         // *** SVGs ***
-        // svg-url-loader is used for SVGs in the same vein as url-loader is
-        // used for images. SVGs above the size limit will be loaded using
-        // file-loader (default fallback option) for both development and
-        // production.
+        // To import and use SVGs:
+        // import svgURL, {ReactComponent as SVGComponent} from './file.svg';
+        // <img src={svgURL} />
+        // <SVGComponent />
         {
           test: /\.(svg)$/,
-          use: {
-            loader: 'svg-url-loader',
-            options: {
-              limit: config.url_loader_size_limit,
-              noquotes: true, // Remove quotes around the encoded URL
-            },
+          issuer: {
+            test: /\.jsx?$/
           },
+          use: [
+            // @svgr/webpack converts SVGs to React components and is the
+            // preferred method to load SVGs.
+            // https://www.smooth-code.com/open-source/svgr/docs/webpack/
+            '@svgr/webpack',
+          ],
+          exclude: /node_modules/,
+        },
+        // We need to handle conversion of SVGs into data URLs as well.
+        // svg-url-loader is well-suited for this task.
+        {
+          test: /\.(svg)$/,
+          use:
+            {
+              loader: 'svg-url-loader',
+              options: {
+                noquotes: true,
+                limit: config.url_loader_size_limit,
+              }
+            }
+          ,
           exclude: /node_modules/,
         },
 

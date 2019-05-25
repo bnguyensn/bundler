@@ -29,6 +29,7 @@
     "@babel/preset-env": "^7.4.4",
     "@babel/preset-flow": "^7.0.0",
     "@babel/preset-react": "^7.0.0",
+    "@svgr/webpack": "^4.2.0",
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.6",
     "chalk": "^2.4.2",
