@@ -54,7 +54,7 @@ module.exports = runtimeConfig => {
       // This public URL is prefixed to every URL created by webpack. It is
       // the URL of our output.path from the view of the HTML page.
       // Note: include the prefix '/' for server-relative URLs.
-      publicPath: devMode ? '/' : '/static',
+      publicPath: devMode ? '/' : '/static/',
 
       // [contenthash]: change based on the asset's content
       // However, contenthash will not stay the same between builds even if the
@@ -170,7 +170,7 @@ module.exports = runtimeConfig => {
         {
           test: /\.(svg)$/,
           issuer: {
-            test: /\.jsx?$/
+            test: /\.jsx?$/,
           },
           use: [
             // @svgr/webpack converts SVGs to React components and is the
@@ -184,15 +184,13 @@ module.exports = runtimeConfig => {
         // svg-url-loader is well-suited for this task.
         {
           test: /\.(svg)$/,
-          use:
-            {
-              loader: 'svg-url-loader',
-              options: {
-                noquotes: true,
-                limit: config.url_loader_size_limit,
-              }
-            }
-          ,
+          use: {
+            loader: 'svg-url-loader',
+            options: {
+              noquotes: true,
+              limit: config.url_loader_size_limit,
+            },
+          },
           exclude: /node_modules/,
         },
 
@@ -244,14 +242,6 @@ module.exports = runtimeConfig => {
     },
 
     plugins: [
-      // *** Webpack Manifest ***
-      // webpack's manifest is a file that tracks how all modules map to output
-      // bundles.
-      // https://webpack.js.org/guides/output-management/#the-manifest
-      new ManifestPlugin({
-        fileName: 'webpackManifest.json',
-      }),
-
       ...(devMode
         ? [
             // *** Hot Module Replacement (development) ***
@@ -260,6 +250,18 @@ module.exports = runtimeConfig => {
             new webpack.HotModuleReplacementPlugin(),
           ]
         : [
+            // *** HTML Creation (production) ***
+            new HtmlWebpackPlugin({
+              template: path.resolve(
+                runtimeConfig.dirname,
+                runtimeConfig.output_html_template_prod_path,
+              ),
+              chunks: ['index', 'vendors', 'runtime'],
+
+              // The default path is per output.path
+              filename: '../index.html',
+            }),
+
             // *** CSS Optimization (production) ***
             // mini-css-extract-plugin extracts CSS into separate files.
             // There is also a loader component.
@@ -268,18 +270,6 @@ module.exports = runtimeConfig => {
               // Options are similar to webpackOptions.output
               filename: '[name].[contenthash].css',
               chunkFilename: '[id].[contenthash].css',
-            }),
-
-            // *** HTML Creation (production) ***
-            new HtmlWebpackPlugin({
-              template: path.resolve(
-                runtimeConfig.dirname,
-                runtimeConfig.output_html_template_prod_path,
-              ),
-              chunks: ['index', 'vendors', 'runtime~index'],
-
-              // The default path is per output.path
-              filename: '../index.html',
             }),
 
             // *** PWA - Offline Support (production) ***
@@ -308,6 +298,14 @@ module.exports = runtimeConfig => {
               openAnalyzer: false,
             }),
           ]),
+
+      // *** Webpack Manifest ***
+      // webpack's manifest is a file that tracks how all modules map to output
+      // bundles.
+      // https://webpack.js.org/guides/output-management/#the-manifest
+      new ManifestPlugin({
+        fileName: 'webpackManifest.json',
+      }),
     ],
 
     devtool: devMode ? 'inline-source-map' : 'source-map',
