@@ -448,6 +448,7 @@ module.exports = runtimeConfig => {
     // multiple builds. They can be used to track how modules change between
     // builds. webpack records are useful for monitoring whether our output
     // chunks are achieving the intended caching behaviours.
+    // https://webpack.js.org/configuration/other-options/#recordspath
     recordsPath: path.join(runtimeConfig.dirname, 'webpackRecords.json'),
   };
 };
