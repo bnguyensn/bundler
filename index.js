@@ -16,7 +16,7 @@ const postcssNormalize = require('postcss-normalize');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const WorkboxPlugin = require('workbox-webpack-plugin');
+const {InjectManifest} = require('workbox-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 
@@ -244,12 +244,20 @@ module.exports = runtimeConfig => {
     plugins: [
       ...(devMode
         ? [
+            // ======================================================= //
+            // THE BELOW PLUGINS ARE SPECIFIC TO DEVELOPMENT RUNS ONLY //
+            // ======================================================= //
+
             // *** Hot Module Replacement (development) ***
             // This is what allows us to see the effects of our changed files
             // immediately on the web browser during development.
             new webpack.HotModuleReplacementPlugin(),
           ]
         : [
+            // ====================================================== //
+            // THE BELOW PLUGINS ARE SPECIFIC TO PRODUCTION RUNS ONLY //
+            // ====================================================== //
+
             // *** HTML Creation (production) ***
             new HtmlWebpackPlugin({
               template: path.resolve(
@@ -274,9 +282,16 @@ module.exports = runtimeConfig => {
 
             // *** PWA - Offline Support (production) ***
             // https://webpack.js.org/guides/progressive-web-application#adding-workbox
-            new WorkboxPlugin.GenerateSW({
-              clientsClaim: true,
-              skipWaiting: true,
+            // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin#injectmanifest_plugin_1
+            new InjectManifest({
+              // Path to the service worker JavaScript file
+              swSrc: path.resolve(runtimeConfig.dirname, 'service-worker.js'),
+
+              // Since we already configured webpack to cache bust based on
+              // [contenthash], we can tell Workbox to ignore its normal HTTP
+              // cache-busting procedure that's done when populating the
+              // precache.
+              dontCacheBustURLsMatching: /\.\w{20}\./
             }),
 
             // *** Caching (production) ***
