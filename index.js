@@ -16,7 +16,7 @@ const postcssNormalize = require('postcss-normalize');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const {InjectManifest} = require('workbox-webpack-plugin');
+const { InjectManifest } = require('workbox-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 
@@ -285,13 +285,19 @@ module.exports = runtimeConfig => {
             // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin#injectmanifest_plugin_1
             new InjectManifest({
               // Path to the service worker JavaScript file
-              swSrc: path.resolve(runtimeConfig.dirname, 'service-worker.js'),
+              swSrc: path.resolve(runtimeConfig.dirname, 'src/service-worker.js'),
+
+              // Path to the service worker and precache manifest JavaScript
+              // files that will be built. Note that we want to put this file in
+              // the same place as our index.html file.
+              swDest: '../service-worker.js',
+              importsDirectory: '../',
 
               // Since we already configured webpack to cache bust based on
               // [contenthash], we can tell Workbox to ignore its normal HTTP
               // cache-busting procedure that's done when populating the
               // precache.
-              dontCacheBustURLsMatching: /\.\w{20}\./
+              dontCacheBustURLsMatching: /\.\w{20}\./,
             }),
 
             // *** Caching (production) ***

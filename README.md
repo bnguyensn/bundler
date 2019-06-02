@@ -62,6 +62,8 @@ This executable, when runs, will either start a `webpack-dev-server` for develop
 
 `test:prod` test a production build. Note that the process will create a `node_modules/.cache/terser-webpack-plugin` folder. This just is `terser-webpack-plugin` caching its build results to improve build performance.
 
+`test:server` starts a localhost server to test production-bundled files.
+
 The build tool's entry point is in `bin/bundler.js`. Start from there.
 
 ## To-do
