@@ -5,10 +5,10 @@
   "main": "index.js",
   "bin": "./bin/bundler.js",
   "scripts": {
-    "test": "test",
-    "test:dev": "cd tests && node ../bin/bundler.js dev && cd ..",
-    "test:prod": "cd tests && node ../bin/bundler.js prod && cd ..",
-    "test:server": "cd tests && node server/server.js && cd .."
+    "test": "jest",
+    "dev": "cd tests && node ../bin/bundler.js dev && cd ..",
+    "prod": "cd tests && node ../bin/bundler.js prod && cd ..",
+    "server": "cd tests && node server/server.js && cd .."
   },
   "author": "@bnguyensn",
   "license": "MIT",
@@ -24,7 +24,8 @@
     "pino-pretty": "^3.1.0",
     "prettier": "^1.17.1",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "rewire": "^4.0.1"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",

@@ -19,6 +19,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
+const SWPlugin = require('./lib/SWPlugin/SWPlugin');
 
 const config = {
   url_loader_size_limit: 1024 * 10, // 10kb
@@ -283,9 +284,12 @@ module.exports = runtimeConfig => {
             // *** PWA - Offline Support (production) ***
             // https://webpack.js.org/guides/progressive-web-application#adding-workbox
             // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin#injectmanifest_plugin_1
-            new InjectManifest({
+            /*new InjectManifest({
               // Path to the service worker JavaScript file
-              swSrc: path.resolve(runtimeConfig.dirname, 'src/service-worker.js'),
+              swSrc: path.resolve(
+                runtimeConfig.dirname,
+                'src/service-worker.js',
+              ),
 
               // Path to the service worker and precache manifest JavaScript
               // files that will be built. Note that we want to put this file in
@@ -298,6 +302,11 @@ module.exports = runtimeConfig => {
               // cache-busting procedure that's done when populating the
               // precache.
               dontCacheBustURLsMatching: /\.\w{20}\./,
+            }),*/
+            new SWPlugin({
+              inputFileDir: path.resolve(runtimeConfig.dirname, 'src'),
+              inputFileName: 'service-worker.js',
+              outputFilePath: '../service-worker.js',
             }),
 
             // *** Caching (production) ***

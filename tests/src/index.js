@@ -2,14 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import './styles/global.css';
-import registerServiceWorker from './service-worker';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
+// Initialise webpack Hot Module Replacement
+// This is only relevant for development runs.
 if (module.hot) {
   module.hot.accept('./index.js', () => {
-    console.log('Webpack Hot Module Replacement updated successfully!');
+    console.log('webpack Hot Module Replacement updated successfully!');
   });
 }
 
-registerServiceWorker();
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/service-worker.js');
+  });
+}
