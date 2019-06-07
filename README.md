@@ -31,15 +31,15 @@ Add scripts to run the build process in your `package.json`:
 
 ## Configuration
 
-Create a `@bnguyensn/bundler` section in your `package.json`:
+Create a `@bnguyensn/bundler` section in your `package.json`. Default values are below:
 
 ```json
 {
   "@bnguyensn/bundler": {
-    // Default values are shown below
     "entry": "src/index.js",
-    "output": "dist/static",
-    "output_html": "../index.html"
+    "html_template_dev": "src/html-templates",
+    "html_template_prod": "src/html-templates/index_prod.html",
+    "dev_server_port": 8080
   }
 }
 ```
