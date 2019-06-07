@@ -1,5 +1,5 @@
 const path = require('path');
-const fastify = require('fastify')({
+const fastify = require('fastify/fastify')({
   logger: {
     prettyPrint: true,
   },
@@ -7,7 +7,7 @@ const fastify = require('fastify')({
 const config = require('./serverConfig');
 
 fastify.register(require('fastify-sensible'));
-fastify.register(require('fastify-static'), {
+fastify.register(require('fastify-static/index'), {
   root: path.resolve(__dirname, '../dist'),
 });
 

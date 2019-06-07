@@ -6,9 +6,9 @@
   "bin": "./bin/bundler.js",
   "scripts": {
     "test": "jest",
-    "dev": "cd tests && node ../bin/bundler.js dev && cd ..",
-    "prod": "cd tests && node ../bin/bundler.js prod && cd ..",
-    "server": "cd tests && node server/server.js && cd .."
+    "dev": "cd examples/js-standard && node ../../bin/bundler.js dev && cd ..",
+    "prod": "cd examples/js-standard && node ../../bin/bundler.js prod && cd ..",
+    "server": "cd examples/js-standard && node server/server.js && cd ../.."
   },
   "author": "@bnguyensn",
   "license": "MIT",

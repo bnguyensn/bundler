@@ -12,7 +12,12 @@ const babelOptions = require('./package')['babel'];
 const ManifestPlugin = require('webpack-manifest-plugin');
 const cssnano = require('cssnano');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const postcssNormalize = require('postcss-normalize');
+
+// 07/06/2019: temporarily disabled because of:
+// TODO: update when issue fixed
+// https://github.com/csstools/postcss-normalize/issues/40
+// const postcssNormalize = require('postcss-normalize');
+
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
@@ -131,7 +136,10 @@ module.exports = runtimeConfig => {
                   // you need from the browserlist field. Use this by adding an
                   // @import-normalize; line at the top of your .css file.
                   // https://github.com/csstools/postcss-normalize
-                  postcssNormalize(),
+                  // 07/06/2019: temporarily disabled because of:
+                  // TODO: update when issue fixed
+                  // https://github.com/csstools/postcss-normalize/issues/40
+                  // postcssNormalize(),
                 ],
               },
             },
