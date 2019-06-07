@@ -86,6 +86,7 @@ function installServiceWorker() {
         },
         err => {
           // TODO: handle errors
+          console.log(err);
         },
       ),
     );
@@ -117,8 +118,9 @@ function installServiceWorker() {
               });
             }),
         )
-        .catch(() => {
+        .catch(err => {
           // TODO: give a 404 page? This happens when there is nothing in the cache and the Internet is down
+          console.log(err);
         }),
     );
   });
@@ -142,10 +144,15 @@ function installServiceWorker() {
               return caches.delete(cacheName);
             }
           }),
-        );
+        ).catch(err => {
+          // TODO: handle errors here
+          console.log(err);
+        });
       }),
     );
   });
 }
 
+// TODO: update this after Workbox 5 (re-introduce export and remove function call)
+installServiceWorker();
 // export { registerServiceWorker, installServiceWorker };
