@@ -3,10 +3,7 @@
  * is enabled by postcss-normalize.
  * https://github.com/csstools/postcss-normalize
  */
-/* 07/06/2019: temporarily disabled because of:
- TODO: update when issue fixed
- https://github.com/csstools/postcss-normalize/issues/40
- @import-normalize;*/
+@import-normalize;
 
 html {
   background-color: #b2dfdb;
