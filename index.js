@@ -12,10 +12,7 @@ const babelOptions = require('./package')['babel'];
 const ManifestPlugin = require('webpack-manifest-plugin');
 const cssnano = require('cssnano');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
-// https://github.com/csstools/postcss-normalize/issues/40
 const postcssNormalize = require('postcss-normalize');
-
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
