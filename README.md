@@ -46,7 +46,7 @@ Create a `@bnguyensn/bundler` section in your `package.json`. Default values are
 
 ## How it works
 
-The package exports the `bundler.js` executable in `bin`.
+This package exports the `bundler.js` executable in `bin`.
 
 This executable, when runs, will either start a `webpack-dev-server` for development or build a production build using configurations from:
  
@@ -60,7 +60,7 @@ This executable, when runs, will either start a `webpack-dev-server` for develop
 
 * `yarn dev` or `npm dev`: start a development run.
 
-* `yarn prod` or `npm prod`: start a production build. Note that the process will create a `node_modules/.cache/terser-webpack-plugin` folder in the relevant example folder. This just is `terser-webpack-plugin` caching its build results to improve build performance.
+* `yarn prod` or `npm prod`: start a production build. Note that the process will create a `node_modules/.cache/terser-webpack-plugin` folder in the relevant example folder. This is just `terser-webpack-plugin` caching its build results to improve build performance.
 
 * `yarn server` or `npm server`: start a localhost server to serve production-bundled files.
 
