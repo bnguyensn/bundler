@@ -31,18 +31,19 @@ Add scripts to run the build process in your `package.json`:
 
 ## Configuration
 
-Create a `@bnguyensn/bundler` section in your `package.json`. Default values are below:
+Configurations are specified via a `@bnguyensn/bundler` field in the `package.json` file. See examples in the `examples` folder. 
 
-```json
-{
-  "@bnguyensn/bundler": {
-    "entry": "src/index.js",
-    "html_template_dev": "src/html-templates",
-    "html_template_prod": "src/html-templates/index_prod.html",
-    "dev_server_port": 8080
-  }
-}
-```
+Available configurations are below. Optional fields are marked accordingly. All paths are from the perspective of the top-level project directory (see `userDirname` variable in `bin/bundler.js`).
+
+Field | Type | Default | Description
+:---: | :---: | :---: | ---
+`entryPath` | `string` | `src/index.js` | Path to the entry file for webpack. See documentation [here](https://webpack.js.org/concepts/entry-points/). Note that we only support single-page web applications currently.
+`htmlWebpackPluginTemplateDevPath` | `string` | `''` | Path to the HTML template for [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) (development mode).
+`htmlWebpackPluginTemplateProdPath` | `string` | `''` | Path to the HTML template for [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) (production mode).
+`faviconPath?` | `string` | `''` | *(optional)* Path to the favicon for [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin#events). If left empty, a favicon will not be bundled.
+`pwaManifestTemplatePath?` | `string` | `''` | *(optional)* Path to the template for [webpack-pwa-manifest](https://github.com/arthurbergmz/webpack-pwa-manifest)'s options, which can be a JSON or JavaScript file. If left empty, a `manifest.json` file will not be generated.
+`webpackDevServerPort` | `number` | `8080` | Port on which [webpack-dev-server](https://webpack.js.org/guides/development/#using-webpack-dev-server) runs.
+ 
 
 ## How it works
 
