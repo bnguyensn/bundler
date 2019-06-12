@@ -14,33 +14,36 @@ const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const webpackConfigFn = require('../index');
 
-// Runtime variables
+// User config variables specified via package.json
 const userDirname = path.resolve(process.cwd());
-const userConfig = require(path.resolve(userDirname, 'package.json'))[
-  '@bnguyensn/bundler'
-];
+const defaultUserConfig = require('../lib/defaultUserConfig/package.json');
+const userConfig = Object.assign(
+  defaultUserConfig,
+  require(path.resolve(userDirname, 'package.json'))['@bnguyensn/bundler'] ||
+    {},
+);
+
+// Mode (development or production)
 const mode = process.argv[2];
-const runtimeConfig = {
+
+const config = {
   // Not configurable via package.json
   dirname: userDirname,
   mode: mode === 'prod' ? 'production' : 'development',
 
   // Configurable via package.json
-  entry_index: (userConfig && userConfig.entry) || 'src/index.js',
-  output_html_template_dev_path:
-    (userConfig && userConfig.html_template_dev_path) || 'src/html-templates',
-  output_html_template_prod_path:
-    (userConfig && userConfig.html_template_prod_path) ||
-    'src/html-templates/index_prod.html',
-  favicon: (userConfig && userConfig.favicon) || 'src/img/favicon/favicon.ico',
-  pwaManifestTemplate:
-    userConfig && userConfig.pwaManifestTemplatePath
-      ? require(path.resolve(userDirname, userConfig.pwaManifestTemplatePath))
-      : {},
-  dev_server_port: (userConfig && userConfig.dev_server_port) || 8080,
+  entryPath: userConfig.entryPath,
+  htmlWebpackPluginTemplateDevPath: userConfig.htmlWebpackPluginTemplateDevPath,
+  htmlWebpackPluginTemplateProdPath:
+    userConfig.htmlWebpackPluginTemplateProdPath,
+  faviconPath: userConfig.faviconPath,
+  pwaManifestTemplate: userConfig.pwaManifestTemplatePath
+    ? require(path.resolve(userDirname, userConfig.pwaManifestTemplatePath))
+    : {},
+  webpackDevServerPort: userConfig.webpackDevServerPort,
 };
 
-const webpackConfig = webpackConfigFn(runtimeConfig);
+const webpackConfig = webpackConfigFn(config);
 
 // ======================================= //
 // ========== START THE PROGRAM ========== //
@@ -68,8 +71,8 @@ if (mode === 'prod') {
    * configurations in webpackConfig. If you change webpackConfig paths, you
    * should change these removers as well.
    * */
-  shell.rm('-rf', path.resolve(runtimeConfig.dirname, 'dist'));
-  shell.rm('-rf', path.resolve(runtimeConfig.dirname, 'webpackRecords.json'));
+  shell.rm('-rf', path.resolve(config.dirname, 'dist'));
+  shell.rm('-rf', path.resolve(config.dirname, 'webpackRecords.json'));
 
   compiler.run((err, stats) => {
     if (err) {
@@ -87,10 +90,10 @@ if (mode === 'prod') {
 
   const server = new WebpackDevServer(compiler, webpackDevServerConfig);
 
-  server.listen(runtimeConfig.dev_server_port, '127.0.0.1', () => {
+  server.listen(config.webpackDevServerPort, '127.0.0.1', () => {
     console.log(
       chalk.greenBright(
-        `Starting webpack-dev-server on http://localhost:${runtimeConfig.dev_server_port}`,
+        `Starting webpack-dev-server on http://localhost:${config.webpackDevServerPort}`,
       ),
     );
   });

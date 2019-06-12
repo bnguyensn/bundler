@@ -1,0 +1,8 @@
+{
+  "entryPath": "src/index.js",
+  "htmlWebpackPluginTemplateDevPath": "",
+  "htmlWebpackPluginTemplateProdPath": "",
+  "faviconPath": "",
+  "pwaManifestTemplatePath": "",
+  "webpackDevServerPort": 8080
+}

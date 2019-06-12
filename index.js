@@ -6,8 +6,10 @@
 // Core packages
 const path = require('path');
 const webpack = require('webpack');
+
 // Babel
 const babelOptions = require('./package')['babel'];
+
 // PLugins
 const ManifestPlugin = require('webpack-manifest-plugin');
 const cssnano = require('cssnano');
@@ -17,13 +19,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPWAManifest = require('webpack-pwa-manifest');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const { InjectManifest } = require('workbox-webpack-plugin');
+
+// workbox-webpack-plugin is temporarily disabled until Workbox 5
+// const { InjectManifest } = require('workbox-webpack-plugin');
+
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const SWPlugin = require('./lib/SWPlugin/SWPlugin');
 
-const config = {
-  url_loader_size_limit: 1024 * 10, // 10kb
+const globals = {
+  urlLoaderSizeLimit: 1024 * 10, // 10kb
 };
 
 /**
@@ -39,9 +44,10 @@ module.exports = runtimeConfig => {
     mode: devMode ? 'development' : 'production',
 
     // We are building a Single-Page Application, thus only one entry is needed.
-    // More entries can be specified for Multi-Page Applications.
+    // More entries can be specified for Multi-Page Applications, but this is
+    // not supported for now.
     entry: {
-      index: path.join(runtimeConfig.dirname, runtimeConfig.entry_index),
+      index: path.join(runtimeConfig.dirname, runtimeConfig.entryPath),
     },
 
     // Our build process puts all assets (.js, .css, etc.) in a "static" folder.
@@ -154,7 +160,7 @@ module.exports = runtimeConfig => {
           use: {
             loader: 'url-loader',
             options: {
-              limit: config.url_loader_size_limit,
+              limit: globals.urlLoaderSizeLimit,
               name: devMode
                 ? 'img/[name].[ext]'
                 : 'img/[name].[contenthash].[ext]',
@@ -189,7 +195,7 @@ module.exports = runtimeConfig => {
             loader: 'svg-url-loader',
             options: {
               noquotes: true,
-              limit: config.url_loader_size_limit,
+              limit: globals.urlLoaderSizeLimit,
             },
           },
           exclude: /node_modules/,
@@ -243,6 +249,13 @@ module.exports = runtimeConfig => {
     },
 
     plugins: [
+      // *** Mode ***
+      // DefinePlugin is used to create global constants for usage in our actual
+      // application.
+      new webpack.DefinePlugin({
+        'DEFINEPLUGIN.DEVMODE': devMode,
+      }),
+
       ...(devMode
         ? [
             // ======================================================= //
@@ -263,9 +276,12 @@ module.exports = runtimeConfig => {
             new HtmlWebpackPlugin({
               template: path.resolve(
                 runtimeConfig.dirname,
-                runtimeConfig.output_html_template_prod_path,
+                runtimeConfig.htmlWebpackPluginTemplateProdPath,
               ),
-              favicon: path.join(runtimeConfig.dirname, runtimeConfig.favicon),
+              favicon: path.join(
+                runtimeConfig.dirname,
+                runtimeConfig.faviconPath,
+              ),
 
               // These chunks match our split JavaScript code. They are inserted
               // in order from right to left.
@@ -367,7 +383,7 @@ module.exports = runtimeConfig => {
       // Default to the current working directory.
       contentBase: path.join(
         runtimeConfig.dirname,
-        runtimeConfig.output_html_template_dev_path,
+        runtimeConfig.htmlWebpackPluginTemplateDevPath,
       ),
 
       publicPath: '/',
@@ -375,7 +391,7 @@ module.exports = runtimeConfig => {
       // Enable gzip compression
       compress: true,
 
-      port: runtimeConfig.dev_server_port,
+      port: runtimeConfig.webpackDevServerPort,
 
       // Show a full-screen overlay in the browser when there are compiler
       // errors.

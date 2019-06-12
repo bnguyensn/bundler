@@ -1,13 +1,13 @@
 # SWPlugin
 
-### Description
+## Description
 
 This plugin:
 
 * Locate the service worker JavaScript file
 * Inject the precache manifest array into the service worker JavaScript file
 
-### Why?
+## Why?
 
 Currently Google Workbox's `InjectManifest` plugin result does not get transpiled by webpack ([issue#1513](https://github.com/GoogleChrome/workbox/issues/1513)).
 

@@ -5,6 +5,17 @@ import './styles/global.css';
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
+// Debug - The constant DEFINEPLUGIN.DEVMODE is injected by webpack's
+// DefinePlugin. See the webpack config file.
+if (DEFINEPLUGIN.DEVMODE) {
+  console.log('Application running in development mode.');
+} else {
+  console.error(
+    'Application running in production mode. NOTE: YOU ARE NOT SUPPOSED TO' +
+    ' SEE THIS!',
+  );
+}
+
 // Initialise webpack Hot Module Replacement
 // This is only relevant for development runs.
 if (module.hot) {
@@ -13,7 +24,8 @@ if (module.hot) {
   });
 }
 
-if ('serviceWorker' in navigator) {
+// Should only do in production mode
+if ('serviceWorker' in navigator && !DEFINEPLUGIN.DEVMODE) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js');
   });
