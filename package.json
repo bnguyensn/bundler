@@ -8,7 +8,10 @@
     "test": "jest",
     "dev": "cd examples/js-standard && node ../../bin/bundler.js dev && cd ..",
     "prod": "cd examples/js-standard && node ../../bin/bundler.js prod && cd ..",
-    "server": "cd examples/js-standard && node server/server.js && cd ../.."
+    "server": "cd examples/js-standard && node server/server.js && cd ../..",
+    "preversion": "yarn test",
+    "postversion": "npm publish",
+    "postpublish": "git push origin master"
   },
   "author": "@bnguyensn",
   "license": "MIT",
