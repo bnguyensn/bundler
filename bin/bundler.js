@@ -1,20 +1,25 @@
 #!/usr/bin/env node
 
+// ======================================== //
+// ========== SET UP ENVIRONMENT ========== //
+// ======================================== //
+
 // Core packages
 const path = require('path');
 const shell = require('shelljs');
 const chalk = require('chalk');
+
 // webpack
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
 const webpackConfigFn = require('../index');
+
 // Runtime variables
 const userDirname = path.resolve(process.cwd());
 const userConfig = require(path.resolve(userDirname, 'package.json'))[
   '@bnguyensn/bundler'
 ];
 const mode = process.argv[2];
-
 const runtimeConfig = {
   // Not configurable via package.json
   dirname: userDirname,
@@ -23,14 +28,23 @@ const runtimeConfig = {
   // Configurable via package.json
   entry_index: (userConfig && userConfig.entry) || 'src/index.js',
   output_html_template_dev_path:
-    (userConfig && userConfig.html_template_dev) || 'src/html-templates',
+    (userConfig && userConfig.html_template_dev_path) || 'src/html-templates',
   output_html_template_prod_path:
-    (userConfig && userConfig.html_template_prod) ||
+    (userConfig && userConfig.html_template_prod_path) ||
     'src/html-templates/index_prod.html',
+  favicon: (userConfig && userConfig.favicon) || 'src/img/favicon/favicon.ico',
+  pwaManifestTemplate:
+    userConfig && userConfig.pwaManifestTemplatePath
+      ? require(path.resolve(userDirname, userConfig.pwaManifestTemplatePath))
+      : {},
   dev_server_port: (userConfig && userConfig.dev_server_port) || 8080,
 };
 
 const webpackConfig = webpackConfigFn(runtimeConfig);
+
+// ======================================= //
+// ========== START THE PROGRAM ========== //
+// ======================================= //
 
 console.log('');
 console.log(chalk.blue('Running bundler...'));
@@ -76,9 +90,7 @@ if (mode === 'prod') {
   server.listen(runtimeConfig.dev_server_port, '127.0.0.1', () => {
     console.log(
       chalk.greenBright(
-        `Starting webpack-dev-server on http://localhost:${
-          runtimeConfig.dev_server_port
-        }`,
+        `Starting webpack-dev-server on http://localhost:${runtimeConfig.dev_server_port}`,
       ),
     );
   });

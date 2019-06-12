@@ -1,8 +1,10 @@
 {
   "@bnguyensn/bundler": {
     "entry": "src/index.js",
-    "html_template_dev": "src/html-templates",
-    "html_template_prod": "src/html-templates/index_prod.html",
+    "html_template_dev_path": "src/html-templates",
+    "html_template_prod_path": "src/html-templates/index_prod.html",
+    "favicon": "src/img/favicon/favicon.ico",
+    "pwaManifestTemplatePath": "src/manifest.js",
     "dev_server_port": 8080
   }
 }

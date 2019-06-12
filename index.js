@@ -14,6 +14,7 @@ const cssnano = require('cssnano');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssNormalize = require('postcss-normalize');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const WebpackPWAManifest = require('webpack-pwa-manifest');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const { InjectManifest } = require('workbox-webpack-plugin');
@@ -155,8 +156,8 @@ module.exports = runtimeConfig => {
             options: {
               limit: config.url_loader_size_limit,
               name: devMode
-                ? 'assets/[name].[ext]'
-                : 'assets/[name].[contenthash].[ext]',
+                ? 'img/[name].[ext]'
+                : 'img/[name].[contenthash].[ext]',
             },
           },
           exclude: /node_modules/,
@@ -264,11 +265,27 @@ module.exports = runtimeConfig => {
                 runtimeConfig.dirname,
                 runtimeConfig.output_html_template_prod_path,
               ),
+              favicon: path.join(runtimeConfig.dirname, runtimeConfig.favicon),
+
+              // These chunks match our split JavaScript code. They are inserted
+              // in order from right to left.
               chunks: ['index', 'vendors', 'runtime'],
 
               // The default path is per output.path
               filename: '../index.html',
             }),
+
+            // *** PWA manifest.json ***
+            // webpack-pwa-manifest is used to generate the manifest.json file.
+            // Option values are taken from a JSON or JavaScript file as defined
+            // in the user's package.json file. If no such file is found, this
+            // plugin will not be used.
+            // Note that this plugin should be defined AFTER
+            // html-webpack-plugin.
+            // https://github.com/arthurbergmz/webpack-pwa-manifest
+            runtimeConfig.pwaManifestTemplate
+              ? new WebpackPWAManifest(runtimeConfig.pwaManifestTemplate)
+              : null,
 
             // *** CSS Optimization (production) ***
             // mini-css-extract-plugin extracts CSS into separate files.
