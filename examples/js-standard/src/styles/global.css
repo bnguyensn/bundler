@@ -4,13 +4,41 @@
  * https://github.com/csstools/postcss-normalize
  */
 @import-normalize;
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
 html {
-  background-color: #b2dfdb;
+  font: 16px 'Open Sans', sans-serif;
+  background-color: #fce4ec;
 }
 
-img, svg {
+img,
+svg {
   display: block;
+}
+
+.app {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+}
+
+.app-section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+
+  margin: 1rem;
+  border: 2px solid #eb9cb7;
+  padding: 1rem;
+  border-radius: 5px;
+
+  background-color: #F6C4D4;
+}
+
+.app-section > * {
+  margin: 0.25rem;
 }
 
 .has-svg-background {

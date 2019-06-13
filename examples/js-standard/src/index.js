@@ -9,11 +9,6 @@ ReactDOM.render(<App />, document.getElementById('root'));
 // DefinePlugin. See the webpack config file.
 if (DEFINEPLUGIN.DEVMODE) {
   console.log('Application running in development mode.');
-} else {
-  console.error(
-    'Application running in production mode. NOTE: YOU ARE NOT SUPPOSED TO' +
-    ' SEE THIS!',
-  );
 }
 
 // Initialise webpack Hot Module Replacement
