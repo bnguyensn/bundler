@@ -21,6 +21,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 
 // workbox-webpack-plugin is temporarily disabled until Workbox 5
+// https://github.com/GoogleChrome/workbox/issues/1513
 // const { InjectManifest } = require('workbox-webpack-plugin');
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
@@ -291,7 +292,7 @@ module.exports = runtimeConfig => {
               filename: '../index.html',
             }),
 
-            // *** PWA manifest.json ***
+            // *** PWA manifest ***
             // webpack-pwa-manifest is used to generate the manifest.json file.
             // Option values are taken from a JSON or JavaScript file as defined
             // in the user's package.json file. If no such file is found, this
@@ -316,6 +317,8 @@ module.exports = runtimeConfig => {
             // *** PWA - Offline Support (production) ***
             // https://webpack.js.org/guides/progressive-web-application#adding-workbox
             // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin#injectmanifest_plugin_1
+            // Currently not in use until this issue is fixed in Workbox 5:
+            // https://github.com/GoogleChrome/workbox/issues/1513
             /*new InjectManifest({
               // Path to the service worker JavaScript file
               swSrc: path.resolve(
