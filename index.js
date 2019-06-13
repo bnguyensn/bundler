@@ -1,6 +1,7 @@
 /**
  * This file exports a function that that returns a webpack config object. The
- * parameters are variables that are only known at runtime.
+ * function takes 1 parameter: an object containing variables only known at
+ * run time (e.g. user's top-level directory path).
  * */
 
 // Core packages
@@ -10,7 +11,7 @@ const webpack = require('webpack');
 // Babel
 const babelOptions = require('./package')['babel'];
 
-// PLugins
+// Plugins
 const ManifestPlugin = require('webpack-manifest-plugin');
 const cssnano = require('cssnano');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
