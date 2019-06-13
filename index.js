@@ -374,7 +374,7 @@ module.exports = runtimeConfig => {
       }),
     ],
 
-    devtool: devMode ? 'inline-source-map' : 'source-map',
+    devtool: devMode ? 'cheap-module-eval-source-map' : 'source-map',
 
     // *** Dev Server (development) ***
     devServer: {
