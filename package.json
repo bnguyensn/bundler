@@ -1,6 +1,6 @@
 {
   "name": "@bnguyensn/bundler",
-  "version": "1.8.2",
+  "version": "1.8.3",
   "description": "Standard bundler for my web apps",
   "main": "index.js",
   "bin": "./bin/bundler.js",
