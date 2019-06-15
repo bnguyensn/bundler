@@ -20,16 +20,17 @@
     "url": "https://github.com/bnguyensn/bundler.git"
   },
   "devDependencies": {
+    "babel-jest": "^24.8.0",
     "fastify": "^2.4.1",
     "fastify-sensible": "^2.0.1",
     "fastify-static": "^2.4.0",
     "jest": "^24.8.0",
     "jest-extended": "^0.11.1",
+    "memory-fs": "^0.4.1",
     "pino-pretty": "^3.1.0",
     "prettier": "^1.17.1",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "rewire": "^4.0.1"
+    "react-dom": "^16.8.6"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
