@@ -394,6 +394,10 @@ module.exports = runtimeConfig => {
       // https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writing-manually
       historyApiFallback: true,
 
+      // Without this, there will be CORS issues:
+      // https://github.com/webpack/webpack-dev-server/issues/533
+      disableHostCheck: true,
+
       publicPath: '/',
 
       // Enable gzip compression
