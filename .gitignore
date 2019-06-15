@@ -29,6 +29,8 @@ node_modules
 
 # ########## TESTING ########## #
 
+ignore
+
 # ########## BUILD & PRODUCTION ########## #
 
 dist

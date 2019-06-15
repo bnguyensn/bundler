@@ -390,6 +390,10 @@ module.exports = runtimeConfig => {
         runtimeConfig.htmlWebpackPluginTemplateDevPath,
       ),
 
+      // This option is needed for webpack-dev-server to work:
+      // https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writing-manually
+      historyApiFallback: true,
+
       publicPath: '/',
 
       // Enable gzip compression
