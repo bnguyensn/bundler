@@ -38,11 +38,11 @@ Available configurations are below. Optional fields are marked accordingly. All 
 Field | Type | Default | Description
 :---: | :---: | :---: | ---
 `entryPath` | `string` | `src/index.js` | Path to the entry file for webpack. See documentation [here](https://webpack.js.org/concepts/entry-points/). Note that we only support single-page web applications currently.
-`htmlWebpackPluginTemplateDevPath` | `string` | `''` | Path to the HTML template for [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) (development mode).
-`htmlWebpackPluginTemplateProdPath` | `string` | `''` | Path to the HTML template for [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin) (production mode).
-`faviconPath?` | `string` | `''` | *(optional)* Path to the favicon for [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin#events). If left empty, a favicon will not be bundled.
+`htmlWebpackPluginTemplatePath` | `string` | `''` | Path to the HTML template for [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin). This template is used in both development and production mode.
+`htmlWebpackPluginFaviconPath?` | `string` | `''` | *(optional)* Path to the favicon for [html-webpack-plugin](https://github.com/jantimon/html-webpack-plugin#events). If left empty, a favicon will not be bundled.
 `pwaManifestTemplatePath?` | `string` | `''` | *(optional)* Path to the template for [webpack-pwa-manifest](https://github.com/arthurbergmz/webpack-pwa-manifest)'s options, which can be a JSON or JavaScript file. If left empty, a `manifest.json` file will not be generated.
-`webpackDevServerPort` | `number` | `8080` | Port on which [webpack-dev-server](https://webpack.js.org/guides/development/#using-webpack-dev-server) runs.
+`serviceWorkerFilePath?` | `string` | `''` | *(optional)* Path to the service worker JavaScript file. If left empty, service worker will not be used.
+`webpackDevServerPort?` | `number` | `8080` | *(optional)* Port on which [webpack-dev-server](https://webpack.js.org/guides/development/#using-webpack-dev-server) runs. If left empty, port 8080 will be used.
  
 
 ## How it works

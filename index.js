@@ -24,12 +24,15 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // workbox-webpack-plugin is temporarily disabled until Workbox 5
 // https://github.com/GoogleChrome/workbox/issues/1513
 // const { InjectManifest } = require('workbox-webpack-plugin');
+const SWPlugin = require('./lib/SWPlugin/SWPlugin');
 
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
-const SWPlugin = require('./lib/SWPlugin/SWPlugin');
 
 const globals = {
+  outputPathBaseJS: 'static/js/',
+  outputPathBaseStyles: 'static/css/',
+  outputPathBaseMedia: 'static/media/', // For images, fonts, and others
   urlLoaderSizeLimit: 1024 * 10, // 10kb
 };
 
@@ -59,24 +62,28 @@ module.exports = runtimeConfig => {
     // The path of the index.html file is controlled by HtmlWebpackPlugin,
     // further down in this config.
     output: {
-      path: path.join(runtimeConfig.dirname, 'dist/static'),
+      path: path.join(runtimeConfig.dirname, 'dist'),
 
       // This public URL is prefixed to every URL created by webpack. It is
       // the URL of our output.path from the view of the HTML page.
       // Note: include the prefix '/' for server-relative URLs.
-      publicPath: devMode ? '/' : '/static/',
+      publicPath: '/',
 
       // [contenthash]: change based on the asset's content
-      // However, contenthash will not stay the same between builds even if the
+      // Howev er, contenthash will not stay the same between builds even if the
       // asset's content hasn't changed. To make contenthash deterministic, we
       // need to extract out webpack's runtime and manifest (together
       // "boilerplate"). This can be achieved via the SplitChunksPlugin.
-      filename: devMode ? '[name].js' : '[name].[contenthash].js',
+      filename: devMode
+        ? `${globals.outputPathBaseJS}[name].js`
+        : `${globals.outputPathBaseJS}[name].[contenthash].js`,
 
       // Placeholders like [name] or [chunkhash] require a mapping from chunk
       // id to placeholders to output files, increasing the final bundle size.
       // Thus we switch from [name] to [id] in production.
-      chunkFilename: devMode ? '[name].js' : '[id].[contenthash].js',
+      chunkFilename: devMode
+        ? `${globals.outputPathBaseJS}[name].chunk.js`
+        : `${globals.outputPathBaseJS}[name].[contenthash].chunk.js`,
 
       // *** Build Performance ***
       // path info in the output bundle can put garbage collection pressure on
@@ -109,7 +116,8 @@ module.exports = runtimeConfig => {
             // https://github.com/webpack-contrib/style-loader
             // For production, we use mini-css-extract-plugin. This loader
             // extracts CSS into separate files, which help with code splitting.
-            // There is also a plugin component.
+            // There is a plugin bit that comes with this that we have to define
+            // under the plugin section.
             // https://github.com/webpack-contrib/mini-css-extract-plugin
             devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
 
@@ -128,8 +136,8 @@ module.exports = runtimeConfig => {
             },
 
             // *** 3rd loader ***
-            // postcss-loader is added on top to handle cross-browser
-            // compatibility with its autoprefixer plugin.
+            // postcss-loader is added on top to handle a lot of CSS utilities
+            // e.g. cross-browser prefixes, normalize.css, etc.
             // Both development and production use the same 3rd loader.
             // https://github.com/postcss/postcss-loader
             {
@@ -158,14 +166,14 @@ module.exports = runtimeConfig => {
         // production. It automatically fallback to file-loader for file sizes
         // above the specified limit.
         {
-          test: /\.(png|jpe?g|gif)$/,
+          test: /\.(png|jpe?g|gif|bmp)$/,
           use: {
             loader: 'url-loader',
             options: {
               limit: globals.urlLoaderSizeLimit,
               name: devMode
-                ? 'img/[name].[ext]'
-                : 'img/[name].[contenthash].[ext]',
+                ? `${globals.outputPathBaseMedia}[name].[ext]`
+                : `${globals.outputPathBaseMedia}[name].[contenthash].[ext]`,
             },
           },
           exclude: /node_modules/,
@@ -237,7 +245,12 @@ module.exports = runtimeConfig => {
         // Both development and production use file-loader for fonts.
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/,
-          use: ['file-loader'],
+          use: [
+            {
+              loader: 'file-loader',
+              options: { outputPath: `${globals.outputPathBaseMedia}` },
+            },
+          ],
         },
 
         // *** Texts ***
@@ -254,9 +267,42 @@ module.exports = runtimeConfig => {
       // *** Mode ***
       // DefinePlugin is used to create global constants for usage in our actual
       // application.
+      // https://webpack.js.org/plugins/define-plugin/
       new webpack.DefinePlugin({
         'DEFINEPLUGIN.DEVMODE': devMode,
+        'DEFINEPLUGIN.SERVICEWORKER': !!runtimeConfig.serviceWorkerFilePath,
       }),
+
+      // *** HTML Creation ***
+      // html-webpack-plugin is the de facto plugin for creating HTML files.
+      // https://github.com/jantimon/html-webpack-plugin#options
+      new HtmlWebpackPlugin({
+        template: path.resolve(
+          runtimeConfig.dirname,
+          runtimeConfig.htmlWebpackPluginTemplatePath,
+        ),
+
+        favicon: runtimeConfig.htmlWebpackPluginFaviconPath
+          ? path.join(
+              runtimeConfig.dirname,
+              runtimeConfig.htmlWebpackPluginFaviconPath,
+            )
+          : false,
+
+        filename: 'index.html',
+      }),
+
+      // *** PWA manifest ***
+      // webpack-pwa-manifest is used to generate the manifest.json file.
+      // Option values are taken from a JSON or JavaScript file as defined
+      // in the user's package.json file. If no such file is found, this
+      // plugin will not be used.
+      // Note that this plugin should be defined AFTER
+      // html-webpack-plugin.
+      // https://github.com/arthurbergmz/webpack-pwa-manifest
+      runtimeConfig.pwaManifestTemplate
+        ? new WebpackPWAManifest(runtimeConfig.pwaManifestTemplate)
+        : null,
 
       ...(devMode
         ? [
@@ -274,45 +320,14 @@ module.exports = runtimeConfig => {
             // THE BELOW PLUGINS ARE SPECIFIC TO PRODUCTION RUNS ONLY //
             // ====================================================== //
 
-            // *** HTML Creation (production) ***
-            new HtmlWebpackPlugin({
-              template: path.resolve(
-                runtimeConfig.dirname,
-                runtimeConfig.htmlWebpackPluginTemplateProdPath,
-              ),
-              favicon: path.join(
-                runtimeConfig.dirname,
-                runtimeConfig.faviconPath,
-              ),
-
-              // These chunks match our split JavaScript code. They are inserted
-              // in order from right to left.
-              chunks: ['index', 'vendors', 'runtime'],
-
-              // The default path is per output.path
-              filename: '../index.html',
-            }),
-
-            // *** PWA manifest ***
-            // webpack-pwa-manifest is used to generate the manifest.json file.
-            // Option values are taken from a JSON or JavaScript file as defined
-            // in the user's package.json file. If no such file is found, this
-            // plugin will not be used.
-            // Note that this plugin should be defined AFTER
-            // html-webpack-plugin.
-            // https://github.com/arthurbergmz/webpack-pwa-manifest
-            runtimeConfig.pwaManifestTemplate
-              ? new WebpackPWAManifest(runtimeConfig.pwaManifestTemplate)
-              : null,
-
             // *** CSS Optimization (production) ***
             // mini-css-extract-plugin extracts CSS into separate files.
             // There is also a loader component.
             // https://github.com/webpack-contrib/mini-css-extract-plugin
             new MiniCssExtractPlugin({
               // Options are similar to webpackOptions.output
-              filename: '[name].[contenthash].css',
-              chunkFilename: '[id].[contenthash].css',
+              filename: 'static/styles/[name].[contenthash].css',
+              chunkFilename: 'static/styles/[id].[contenthash].chunk.css',
             }),
 
             // *** PWA - Offline Support (production) ***
@@ -339,11 +354,14 @@ module.exports = runtimeConfig => {
               // precache.
               dontCacheBustURLsMatching: /\.\w{20}\./,
             }),*/
-            new SWPlugin({
-              inputFileDir: path.resolve(runtimeConfig.dirname, 'src'),
-              inputFileName: 'service-worker.js',
-              outputFilePath: '../service-worker.js',
-            }),
+            runtimeConfig.serviceWorkerFilePath
+              ? new SWPlugin({
+                  serviceWorkerInputFilePath: path.resolve(
+                    runtimeConfig.dirname,
+                    runtimeConfig.serviceWorkerFilePath,
+                  ),
+                })
+              : () => {}, // Note: 'null' or 'undefined' is not allowed
 
             // *** Caching (production) ***
             // Output chunks' hashes could change due to
@@ -367,7 +385,9 @@ module.exports = runtimeConfig => {
 
       // *** Webpack Manifest ***
       // webpack's manifest is a file that tracks how all modules map to output
-      // bundles.
+      // bundles. Note that this is NOT related to the PWA manifest.json file,
+      // which is a file that tells client applications basic information about
+      // our web application.
       // https://webpack.js.org/guides/output-management/#the-manifest
       new ManifestPlugin({
         fileName: 'webpackManifest.json',
@@ -383,22 +403,21 @@ module.exports = runtimeConfig => {
       // them in memory and serves them as if they exist at the server's root
       // path. We have our server's root path as '/' (see output.publicPath).
 
-      // This stores the location of the "index.html" for webpack-dev-server.
-      // Default to the current working directory.
-      contentBase: path.join(
-        runtimeConfig.dirname,
-        runtimeConfig.htmlWebpackPluginTemplateDevPath,
-      ),
+      // This determines where files should be served from and takes precedence
+      // over devServer.contentBase. A single forward slash means files will be
+      // served like so: "http://localhost:xxxx/index.html", which is what we
+      // want most of the time.
+      // Note: this should always start and end with a forward slash. It also
+      // should be the same as output.publicPath
+      publicPath: '/',
 
-      // This option is needed for webpack-dev-server to work:
+      // This option is needed for client-side routers:
       // https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writing-manually
       historyApiFallback: true,
 
-      // Without this, there will be CORS issues:
+      // Without this, there might be CORS issues:
       // https://github.com/webpack/webpack-dev-server/issues/533
       disableHostCheck: true,
-
-      publicPath: '/',
 
       // Enable gzip compression
       compress: true,
@@ -412,9 +431,10 @@ module.exports = runtimeConfig => {
         warnings: true,
       },
 
-      // Options for serving static files. Follow express rules.
+      // Options for serving static files. Follow expressJS rules.
       staticOptions: {
-        // This is needed to serve html files other than 'index.html'.
+        // This is needed to serve html files with names other than
+        // 'index.html' and is used for Multi-Page Applications.
         extensions: ['html'],
       },
 

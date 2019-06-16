@@ -1,10 +1,9 @@
 {
   "@bnguyensn/bundler": {
     "entryPath": "src/index.js",
-    "htmlWebpackPluginTemplateDevPath": "src/html-templates",
-    "htmlWebpackPluginTemplateProdPath": "src/html-templates/index_prod.html",
-    "faviconPath": "src/img/favicon/favicon.ico",
-    "pwaManifestTemplatePath": "src/manifest.js",
-    "webpackDevServerPort": 8080
+    "htmlWebpackPluginTemplatePath": "src/assets/html/index.html",
+    "htmlWebpackPluginFaviconPath": "src/assets/images/favicon/favicon.ico",
+    "pwaManifestTemplatePath": "src/assets/manifest.js",
+    "serviceWorkerFilePath": "src/service-worker.js"
   }
 }

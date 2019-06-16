@@ -19,8 +19,8 @@ if (module.hot) {
   });
 }
 
-// Should only do in production mode
-if ('serviceWorker' in navigator && !DEFINEPLUGIN.DEVMODE) {
+// Should only do in production mode and if we have a service worker file.
+if ('serviceWorker' in navigator && DEFINEPLUGIN.SERVICEWORKER) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js');
   });

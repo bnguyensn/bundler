@@ -33,13 +33,13 @@ const config = {
 
   // Configurable via package.json
   entryPath: userConfig.entryPath,
-  htmlWebpackPluginTemplateDevPath: userConfig.htmlWebpackPluginTemplateDevPath,
-  htmlWebpackPluginTemplateProdPath:
-    userConfig.htmlWebpackPluginTemplateProdPath,
-  faviconPath: userConfig.faviconPath,
+  htmlWebpackPluginTemplatePath:
+    userConfig.htmlWebpackPluginTemplatePath,
+  htmlWebpackPluginFaviconPath: userConfig.htmlWebpackPluginFaviconPath,
   pwaManifestTemplate: userConfig.pwaManifestTemplatePath
     ? require(path.resolve(userDirname, userConfig.pwaManifestTemplatePath))
     : {},
+  serviceWorkerFilePath: userConfig.serviceWorkerFilePath,
   webpackDevServerPort: userConfig.webpackDevServerPort,
 };
 
