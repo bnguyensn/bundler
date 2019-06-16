@@ -302,7 +302,7 @@ module.exports = runtimeConfig => {
       // https://github.com/arthurbergmz/webpack-pwa-manifest
       runtimeConfig.pwaManifestTemplate
         ? new WebpackPWAManifest(runtimeConfig.pwaManifestTemplate)
-        : null,
+        : () => {},
 
       ...(devMode
         ? [

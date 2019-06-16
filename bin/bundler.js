@@ -38,7 +38,7 @@ const config = {
   htmlWebpackPluginFaviconPath: userConfig.htmlWebpackPluginFaviconPath,
   pwaManifestTemplate: userConfig.pwaManifestTemplatePath
     ? require(path.resolve(userDirname, userConfig.pwaManifestTemplatePath))
-    : {},
+    : null,
   serviceWorkerFilePath: userConfig.serviceWorkerFilePath,
   webpackDevServerPort: userConfig.webpackDevServerPort,
 };
