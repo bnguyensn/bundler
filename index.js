@@ -4,6 +4,8 @@
  * run time (e.g. user's top-level directory path).
  * */
 
+// ********** IMPORTS ********** //
+
 // Core packages
 const path = require('path');
 const webpack = require('webpack');
@@ -16,6 +18,8 @@ const ManifestPlugin = require('webpack-manifest-plugin');
 const cssnano = require('cssnano');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssNormalize = require('postcss-normalize');
+const postcssPresetEnv = require('postcss-preset-env');
+const postcssFlexbugsFixes = require('postcss-flexbugs-fixes');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPWAManifest = require('webpack-pwa-manifest');
 const TerserPlugin = require('terser-webpack-plugin');
@@ -26,8 +30,11 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // const { InjectManifest } = require('workbox-webpack-plugin');
 const SWPlugin = require('./lib/SWPlugin/SWPlugin');
 
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
+
+// ********** GLOBALS ********** //
 
 const globals = {
   outputPathBaseJS: 'static/js/',
@@ -35,6 +42,97 @@ const globals = {
   outputPathBaseMedia: 'static/media/', // For images, fonts, and others
   urlLoaderSizeLimit: 1024 * 10, // 10kb
 };
+
+// ********** HELPERS ********** //
+
+/**
+ * Return loaders for .css files. We do this because we have slightly different
+ * loaders for pure .css files and CSS modules files.
+ * @param {boolean} devMode - Is this a development build?
+ * @param {boolean} cssModules - Are the loaders used for CSS modules files?
+ * @returns {Object}[] - An array of loaders for CSS files.
+ * */
+function getCSSLoaders(devMode, cssModules) {
+  return [
+    // *** 1st loader ***
+    // For development, we use style-loader. This loader takes CSS code
+    // and inserts it into the HTML page via a <style> tag. This tag is
+    // appended by default to <head>.
+    // https://github.com/webpack-contrib/style-loader
+    // For production, we use mini-css-extract-plugin. This loader
+    // extracts CSS into separate files, which helps with code
+    // splitting. There also is a plugin bit that comes with this
+    // that we have to define under the plugin section.
+    // https://github.com/webpack-contrib/mini-css-extract-plugin
+    devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+
+    // *** 2nd loader ***
+    // css-loader interprets @import and url() like statements and
+    // resolve them.
+    // Both development and production use the same 2nd loader.
+    // https://github.com/webpack-contrib/css-loader
+    {
+      loader: 'css-loader',
+      options: {
+        // How many other loaders are applied before css-loader (i.e.
+        // the loaders declared below css-loader)?
+        importLoaders: 1, // There is only postcss-loader
+
+        // We turn this flag on when loading CSS modules files.
+        // https://webpack.js.org/loaders/postcss-loader/#css-modules
+        modules: cssModules
+          ? {
+              // Using 'local' requires you to specify :global for global classes.
+              // Using 'global' requires you to specify :local for local classes.
+              // https://github.com/css-modules/css-modules#exceptions
+              mode: 'local',
+
+              // Rules for generating the CSS modules file names. This is quite
+              // primitive (create-react-app demonstrates a much more sophisticated
+              // rule set via getLocalIdent. We're keeping things simple for now.
+              // https://github.com/webpack-contrib/css-loader#localidentname
+              localIdentName: '[path][name]__[local]--[hash:base64:5]',
+            }
+          : false,
+      },
+    },
+
+    // *** 3rd loader ***
+    // postcss-loader is added on top to handle various CSS utilities
+    // e.g. cross-browser prefixes, normalize.css, etc.
+    // Both development and production use the same 3rd loader.
+    // https://github.com/postcss/postcss-loader
+    {
+      loader: 'postcss-loader',
+      options: {
+        // This is necessary for external CSS imports to work.
+        // https://github.com/facebook/create-react-app/issues/2677
+        ident: 'postcss',
+
+        plugins: () => [
+          // postcss-flexbugs-fixes tries to fix Flexbox issues.
+          postcssFlexbugsFixes(),
+
+          // postcss-preset-env polyfills CSS files based on our browserslist
+          // settings. It also includes autoprefixer.
+          // https://github.com/csstools/postcss-preset-env
+          // The options passed follow create-react-app.
+          postcssPresetEnv({
+            autoprefixer: { flexbox: 'no-2009' },
+            stage: 3,
+          }),
+
+          // postcss-normalize lets you use the parts of normalize.css
+          // you need from the browserlist field. Use this by adding an
+          // @import-normalize; line at the top of your CSS file.
+          postcssNormalize(),
+        ],
+      },
+    },
+  ];
+}
+
+// ********** WEBPACK CONFIG ********** //
 
 /**
  * Return a webpack config object
@@ -46,8 +144,14 @@ module.exports = runtimeConfig => {
   const devMode = runtimeConfig.mode === 'development';
 
   return {
+    // ========================== //
+    // ========== Mode ========== //
+    // ========================== //
     mode: devMode ? 'development' : 'production',
 
+    // =========================== //
+    // ========== Entry ========== //
+    // =========================== //
     // We are building a Single-Page Application, thus only one entry is needed.
     // More entries can be specified for Multi-Page Applications, but this is
     // not supported for now.
@@ -55,6 +159,9 @@ module.exports = runtimeConfig => {
       index: path.join(runtimeConfig.dirname, runtimeConfig.entryPath),
     },
 
+    // ============================ //
+    // ========== Output ========== //
+    // ============================ //
     // Our build process puts all assets (.js, .css, etc.) in a "static" folder.
     // The top-level "dist" folder only contains the index.html file. This
     // index.html file is the one served by our server (e.g. Express) client
@@ -93,7 +200,20 @@ module.exports = runtimeConfig => {
       pathinfo: devMode,
     },
 
-    // *** Loaders ***
+    // ======================================= //
+    // ========== Module Resolution ========== //
+    // ======================================= //
+    // This determines how webpack looks for files.
+    // https://webpack.js.org/configuration/resolve/
+    resolve: {
+      // webpack will resolve extensions in order from left to right when there
+      // are files with the same name. Mainly used for TypeScript integration.
+      extensions: ['.tsx', '.ts', '.js'],
+    },
+
+    // ============================= //
+    // ========== Loaders ========== //
+    // ============================= //
     module: {
       rules: [
         // *** JavaScript ***
@@ -104,60 +224,42 @@ module.exports = runtimeConfig => {
           exclude: /node_modules/,
         },
 
+        // *** TypeScript ***
+        // ts-loader is used to load TypeScript files, but only after
+        // babel-loader
+        // https://webpack.js.org/guides/typescript/
+        // https://github.com/microsoft/TypeScriptSamples/blob/master/react-flux-babel-karma/webpack.config.js
+        runtimeConfig.useTypeScript
+          ? {
+              test: /\.tsx?$/,
+              use: [
+                { loader: 'babel-loader', options: babelOptions },
+                {
+                  loader: 'ts-loader',
+                  options: {
+                    // This option is for fork-ts-checker-webpack-plugin. It is
+                    // also needed for webpack-dev-server HMR.
+                    // https://github.com/Realytics/fork-ts-checker-webpack-plugin#installation
+                    // https://github.com/TypeStrong/ts-loader#hot-module-replacement
+                    transpileOnly: true,
+                  },
+                },
+              ],
+              exclude: /node_modules/,
+            }
+          : false,
+
         // *** CSS ***
+        // We use a function to determine loaders for CSS files because we
+        // separate out how "normal" CSS files and CSS modules files are loaded.
         {
           test: /\.css$/,
-
-          use: [
-            // *** 1st loader ***
-            // For development, we use style-loader. This loader takes CSS code
-            // and inserts it into the HTML page via a <style> tag. This tag is
-            // appended by default to <head>.
-            // https://github.com/webpack-contrib/style-loader
-            // For production, we use mini-css-extract-plugin. This loader
-            // extracts CSS into separate files, which help with code splitting.
-            // There is a plugin bit that comes with this that we have to define
-            // under the plugin section.
-            // https://github.com/webpack-contrib/mini-css-extract-plugin
-            devMode ? 'style-loader' : MiniCssExtractPlugin.loader,
-
-            // *** 2nd loader ***
-            // css-loader interprets @import and url() like statements and
-            // resolve them.
-            // Both development and production use the same 2nd loader.
-            // https://github.com/webpack-contrib/css-loader
-            {
-              loader: 'css-loader',
-              options: {
-                // How many other loaders are applied before css-loader (i.e.
-                // the loaders declared below css-loader)?
-                importLoaders: 1,
-              },
-            },
-
-            // *** 3rd loader ***
-            // postcss-loader is added on top to handle a lot of CSS utilities
-            // e.g. cross-browser prefixes, normalize.css, etc.
-            // Both development and production use the same 3rd loader.
-            // https://github.com/postcss/postcss-loader
-            {
-              loader: 'postcss-loader',
-              options: {
-                plugins: () => [
-                  // postcss-normalize lets you use the parts of normalize.css
-                  // you need from the browserlist field. Use this by adding an
-                  // @import-normalize; line at the top of your .css file.
-                  postcssNormalize(),
-                ],
-              },
-            },
-          ],
-
-          // Note that if postcss-normalize is not used (i.e. normalize.css is
-          // imported via import 'normalize.css', then we can't use
-          // exclude: /node_modules/
-          // Instead, use the solution suggested by @sokra below:
-          // https://github.com/webpack/webpack/issues/2031#issuecomment-183378107
+          use: getCSSLoaders(devMode, false),
+          exclude: /node_modules/,
+        },
+        {
+          test: /\.module\.css$/,
+          use: getCSSLoaders(devMode, true),
           exclude: /node_modules/,
         },
 
@@ -182,12 +284,15 @@ module.exports = runtimeConfig => {
         // *** SVGs ***
         // To import and use SVGs:
         // import svgURL, {ReactComponent as SVGComponent} from './file.svg';
+        // ...then either of the below:
         // <img src={svgURL} />
         // <SVGComponent />
+        // Note that to make SVG imports work in TypeScript, a declaration file
+        // for SVGs need to be created.
         {
           test: /\.(svg)$/,
           issuer: {
-            test: /\.jsx?$/,
+            test: /\.(jsx?|tsx?)$/,
           },
           use: [
             // @svgr/webpack converts SVGs to React components and is the
@@ -260,17 +365,20 @@ module.exports = runtimeConfig => {
           use: 'raw-loader',
           exclude: /node_modules/,
         },
-      ],
+      ].filter(Boolean),
     },
 
+    // ============================= //
+    // ========== Plugins ========== //
+    // ============================= //
     plugins: [
       // *** Mode ***
       // DefinePlugin is used to create global constants for usage in our actual
       // application.
       // https://webpack.js.org/plugins/define-plugin/
       new webpack.DefinePlugin({
-        'DEFINEPLUGIN.DEVMODE': devMode,
-        'DEFINEPLUGIN.SERVICEWORKER': !!runtimeConfig.serviceWorkerFilePath,
+        DEFINEPLUGIN_DEVMODE: devMode,
+        DEFINEPLUGIN_SERVICEWORKER: !!runtimeConfig.serviceWorkerFilePath,
       }),
 
       // *** HTML Creation ***
@@ -302,6 +410,28 @@ module.exports = runtimeConfig => {
       // https://github.com/arthurbergmz/webpack-pwa-manifest
       runtimeConfig.pwaManifestTemplate
         ? new WebpackPWAManifest(runtimeConfig.pwaManifestTemplate)
+        : () => {},
+
+      // This plugin runs the type checker on a separate process, allowing our
+      // build to remain fast while retaining type checking.
+      runtimeConfig.useTypeScript
+        ? new ForkTsCheckerWebpackPlugin({
+            tsconfig: path.resolve(runtimeConfig.dirname, 'tsconfig.json'),
+            measureCompilationTime: true,
+            useTypescriptIncrementalApi: true,
+
+            // Watch the 'src' folder. This option is not required but improves
+            // performance.
+            watch: path.resolve(
+              runtimeConfig.dirname,
+              runtimeConfig.entryPath,
+              '..',
+            ),
+
+            // If the overlay functionality of webpack-dev-server is used, this
+            // should be set to false.
+            async: !devMode,
+          })
         : () => {},
 
       ...(devMode
@@ -394,9 +524,14 @@ module.exports = runtimeConfig => {
       }),
     ],
 
+    // ============================= //
+    // ========== Devtool ========== //
+    // ============================= //
     devtool: devMode ? 'cheap-module-eval-source-map' : 'source-map',
 
-    // *** Dev Server (development) ***
+    // ======================================================= //
+    // ========== DevServer (development mode only) ========== //
+    // ======================================================= //
     devServer: {
       // *** Info ***
       // webpack-dev-server doesn't write any files after compiling but keeps
@@ -443,6 +578,9 @@ module.exports = runtimeConfig => {
       hot: true,
     },
 
+    // ================================== //
+    // ========== Optimization ========== //
+    // ================================== //
     optimization: {
       // *** SplitChunksPlugin ***
       // The SplitChunksPlugin optimise imported modules (chunks) via preventing
@@ -533,11 +671,17 @@ module.exports = runtimeConfig => {
           ],
     },
 
+    // ============================= //
+    // ========== Context ========== //
+    // ============================= //
     // This points to the base directory that contains the entry files. By
     // default the current directory is used.
     // https://webpack.js.org/configuration/entry-context/#context
     context: runtimeConfig.dirname,
 
+    // ============================= //
+    // ========== Records ========== //
+    // ============================= //
     // webpack records are pieces of data that store module identifiers across
     // multiple builds. They can be used to track how modules change between
     // builds. webpack records are useful for monitoring whether our output

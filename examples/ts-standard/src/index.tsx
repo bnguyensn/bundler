@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './styles/global.css';
 
+declare const DEFINEPLUGIN_DEVMODE: boolean;
+declare const DEFINEPLUGIN_SERVICEWORKER: boolean;
+
 ReactDOM.render(<App />, document.getElementById('root'));
 
 // Debug - The constant DEFINEPLUGIN.DEVMODE is injected by webpack's
@@ -14,7 +17,7 @@ if (DEFINEPLUGIN_DEVMODE) {
 // Initialise webpack Hot Module Replacement
 // This is only relevant for development runs.
 if (module.hot) {
-  module.hot.accept('./index.js', () => {
+  module.hot.accept('./index.tsx', () => {
     const Next = require('./App');
     ReactDOM.render(<Next />, document.getElementById('root'));
 

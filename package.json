@@ -7,7 +7,9 @@
   "scripts": {
     "test": "jest",
     "dev": "cd examples/js-standard && node ../../bin/bundler.js dev && cd ..",
+    "dev-ts": "cd examples/ts-standard && node ../../bin/bundler.js dev && cd ..",
     "prod": "cd examples/js-standard && node ../../bin/bundler.js prod && cd ..",
+    "prod-ts": "cd examples/ts-standard && node ../../bin/bundler.js prod && cd ..",
     "server": "cd examples/js-standard && node server/server.js && cd ../..",
     "preversion": "yarn test",
     "postversion": "npm publish",
@@ -20,6 +22,9 @@
     "url": "https://github.com/bnguyensn/bundler.git"
   },
   "devDependencies": {
+    "@types/react": "^16.8.20",
+    "@types/react-dom": "^16.8.4",
+    "@types/webpack-env": "^1.13.9",
     "babel-jest": "^24.8.0",
     "fastify": "^2.4.1",
     "fastify-sensible": "^2.0.1",
@@ -30,7 +35,8 @@
     "pino-pretty": "^3.1.0",
     "prettier": "^1.17.1",
     "react": "^16.8.6",
-    "react-dom": "^16.8.6"
+    "react-dom": "^16.8.6",
+    "typescript": "^3.5.2"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
@@ -48,18 +54,22 @@
     "css-loader": "^3.0.0",
     "cssnano": "^4.1.10",
     "file-loader": "^4.0.0",
+    "fork-ts-checker-webpack-plugin": "^1.3.7",
     "html-webpack-plugin": "^3.2.0",
     "image-webpack-loader": "^5.0.0",
     "mini-css-extract-plugin": "^0.7.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "postcss-flexbugs-fixes": "^4.1.0",
     "postcss-loader": "^3.0.0",
     "postcss-normalize": "^8.0.0",
+    "postcss-preset-env": "^6.6.0",
     "raw-loader": "^3.0.0",
     "react-hot-loader": "^4.8.8",
     "shelljs": "^0.8.3",
     "style-loader": "^0.23.1",
     "svg-url-loader": "^2.3.2",
     "terser-webpack-plugin": "^1.2.3",
+    "ts-loader": "^6.0.3",
     "url-loader": "^2.0.0",
     "webpack": "^4.31.0",
     "webpack-bundle-analyzer": "^3.3.2",
@@ -89,12 +99,6 @@
       "@babel/plugin-proposal-class-properties",
       "@babel/plugin-proposal-object-rest-spread"
     ]
-  },
-  "postcss": {
-    "plugins": {
-      "postcss-normalize": {},
-      "autoprefixer": {}
-    }
   },
   "browserslist": {
     "production": [

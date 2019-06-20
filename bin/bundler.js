@@ -41,6 +41,7 @@ const config = {
     : null,
   serviceWorkerFilePath: userConfig.serviceWorkerFilePath,
   webpackDevServerPort: userConfig.webpackDevServerPort,
+  useTypeScript: userConfig.useTypeScript,
 };
 
 const webpackConfig = webpackConfigFn(config);

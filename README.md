@@ -43,6 +43,7 @@ Field | Type | Default | Description
 `pwaManifestTemplatePath?` | `string` | `''` | *(optional)* Path to the template for [webpack-pwa-manifest](https://github.com/arthurbergmz/webpack-pwa-manifest)'s options, which can be a JSON or JavaScript file. If left empty, a `manifest.json` file will not be generated.
 `serviceWorkerFilePath?` | `string` | `''` | *(optional)* Path to the service worker JavaScript file. If left empty, service worker will not be used.
 `webpackDevServerPort?` | `number` | `8080` | *(optional)* Port on which [webpack-dev-server](https://webpack.js.org/guides/development/#using-webpack-dev-server) runs. If left empty, port 8080 will be used.
+`useTypeScript?` | `boolean` | `false` | *(optional)* If true, will use appropriate webpack configurations for a TypeScript project. 
  
 
 ## How it works

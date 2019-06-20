@@ -1,0 +1,9 @@
+{
+  "@bnguyensn/bundler": {
+    "useTypeScript": true,
+    "entryPath": "src/index.tsx",
+    "htmlWebpackPluginTemplatePath": "src/assets/html/index.html",
+    "htmlWebpackPluginFaviconPath": "src/assets/images/favicon/favicon.ico",
+    "pwaManifestTemplatePath": "src/assets/manifest.ts"
+  }
+}
