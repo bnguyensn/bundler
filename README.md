@@ -70,4 +70,15 @@ The tool's entry point is in `bin/bundler.js`. Start from there.
 
 ## To-do
 
-N/A
+### /examples
+
+* Demonstrate CSS modules
+* Tidy up example folders to demonstrate all capabilities and allow the build
+to pass Lighthouse audits
+
+### index.js
+
+Main webpack config file:
+* Investigate why the Google Fonts CDN request fails on page refresh (likely 
+due to how the service worker is setup)
+* Work through `create-react-app` and bring in more ideas / fixes
