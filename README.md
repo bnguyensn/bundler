@@ -56,6 +56,15 @@ This executable, when runs, will either start a `webpack-dev-server` for develop
 * The package's `index.js` (the package's webpack configuration file)
 * The user's `package.json`
 
+## What your project should look like?
+
+## Gotchas
+
+### TypeScript and CSS modules
+
+You need to create declaration files for each CSS modules files and put them 
+within the same folder.
+
 ## Development
 
 * `yarn test` or `npm test`: run all tests.
@@ -72,7 +81,7 @@ The tool's entry point is in `bin/bundler.js`. Start from there.
 
 ### /examples
 
-* Demonstrate CSS modules
+* Use `typings-for-css-modules-loader`
 * Tidy up example folders to demonstrate all capabilities and allow the build
 to pass Lighthouse audits
 

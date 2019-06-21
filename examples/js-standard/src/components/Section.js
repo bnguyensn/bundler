@@ -1,5 +1,6 @@
 import React from 'react';
+import styles from '../styles/section.module.css';
 
 export default function Section(props) {
-  return <div className="app-section">{props.children}</div>;
+  return <div className={styles.section}>{props.children}</div>;
 }

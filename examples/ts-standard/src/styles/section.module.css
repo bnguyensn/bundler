@@ -1,0 +1,17 @@
+.section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: column;
+
+  margin: 1rem;
+  border: 2px solid #eb9cb7;
+  padding: 1rem;
+  border-radius: 5px;
+
+  background-color: #f6c4d4;
+}
+
+.app-section > * {
+  margin: 0.25rem;
+}

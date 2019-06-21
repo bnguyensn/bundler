@@ -255,7 +255,10 @@ module.exports = runtimeConfig => {
         {
           test: /\.css$/,
           use: getCSSLoaders(devMode, false),
-          exclude: /node_modules/,
+
+          // We also exclude our CSS modules regex here else our CSS loaders
+          // will override our CSS modules loaders.
+          exclude: [/node_modules/, /\.module\.css$/],
         },
         {
           test: /\.module\.css$/,
