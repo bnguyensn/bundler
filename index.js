@@ -312,7 +312,6 @@ module.exports = runtimeConfig => {
           use: {
             loader: 'svg-url-loader',
             options: {
-              noquotes: true,
               limit: globals.urlLoaderSizeLimit,
             },
           },
