@@ -11,7 +11,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 // Babel
-const babelOptions = require('./package')['babel'];
+const babelOptions = require('./babel.config');
 
 // Plugins
 const ManifestPlugin = require('webpack-manifest-plugin');

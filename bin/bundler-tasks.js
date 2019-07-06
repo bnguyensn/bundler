@@ -7,7 +7,7 @@
 // Core packages
 const path = require('path');
 const shell = require('shelljs');
-const chalk = require('chalk');
+const { task, series, parallel, logger, argv, option } = require('just-task');
 
 // webpack
 const webpack = require('webpack');
@@ -24,7 +24,7 @@ const userConfig = Object.assign(
 );
 
 // webpack mode (development or production)
-const mode = process.argv[2];
+const mode = argv()._[0];
 
 const config = {
   // Not configurable via package.json
@@ -49,52 +49,38 @@ const webpackConfig = webpackConfigFn(config);
 // ========== START THE PROGRAM ========== //
 // ======================================= //
 
-console.log('');
-console.log(chalk.blue('Running bundler...'));
-console.log(`Mode: ${chalk.blue(mode)}`);
-console.log(`Current directory: ${chalk.blue(userDirname)}`);
-console.log('');
+task('init', () => {
+  logger.info('Started the build process');
+});
 
-const compiler = webpack(webpackConfig);
-
-if (mode === 'prod') {
-  /*
-   * The output directory structure is:
-   * dist
-   * |--index.html
-   * |--static
-   * |  |--// built assets...
-   * webpackRecords.json
-   *
-   * The commands below remove the top-level 'dist' folder as well as the
-   * webpackRecords.json before every production build. These paths are based on
-   * configurations in webpackConfig. If you change webpackConfig paths, you
-   * should change these removers as well.
-   * */
-  shell.rm('-rf', path.resolve(config.dirname, 'dist'));
-  shell.rm('-rf', path.resolve(config.dirname, 'webpackRecords.json'));
-
-  compiler.run((err, stats) => {
-    if (err) {
-      console.error(err.stack || err);
-      if (err.details) {
-        console.error(err.details);
-      }
-      return;
-    }
-
-    console.log(stats.toString({ colors: true }));
-  });
-} else {
-  const webpackDevServerConfig = Object.assign({}, webpackConfig.devServer);
-
-  const server = new WebpackDevServer(compiler, webpackDevServerConfig);
-
-  server.listen(config.webpackDevServerPort, '127.0.0.1', () => {
-    console.log(
-      chalk.greenBright(
-        `Starting webpack-dev-server on http://localhost:${config.webpackDevServerPort}`,
-      ),
+task('cleanUp', () => {
+  logger.info('Removing previous build folders');
+  try {
+    shell.rm('-rf', path.resolve(config.dirname, 'dist'));
+    shell.rm('-rf', path.resolve(config.dirname, 'webpackRecords.json'));
+  } catch (err) {
+    throw new Error(
+      `Error encountered when removing previous build folders: ${err}`,
     );
-  });
-}
+  }
+});
+
+task('dev', () => {
+  logger.info('Starting the webpack development server');
+  try {
+  } catch (err) {
+    throw new Error(
+      `Error encountered when starting the webpack development server: ${err}`,
+    );
+  }
+});
+
+task('build', () => {
+  logger.info('Building the application for production');
+  try {
+  } catch (err) {
+    throw new Error(
+      `Error encountered when building the application for production: ${err}`,
+    );
+  }
+});

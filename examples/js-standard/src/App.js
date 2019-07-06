@@ -10,15 +10,15 @@ export default function App() {
       <h1>Hello, world!</h1>
       <Section>
         Here's a large cat:
-        <img src={catLarge} alt="Large cat" />
+        <img src={catLarge} alt="A cat" />
       </Section>
       <Section>
         Here's a small cat (this image is inlined using url-loader):
-        <img src={catSmall} alt="Small cat" />
+        <img src={catSmall} alt="A cat" />
       </Section>
       <Section>
         Here's an SVG loaded as a React component:
-        <JSLogo />
+        <JSLogo title="JavaScript logo" />
       </Section>
       <Section>
         Here's an SVG loaded as an embedded img element:
@@ -33,7 +33,7 @@ export default function App() {
       </Section>
       <Section>
         Here's a component with SVG background loaded using url-loader:
-        <div className="has-svg-background" />
+        <div className="has-svg-background" title="JavaScript logo" />
       </Section>
     </div>
   );

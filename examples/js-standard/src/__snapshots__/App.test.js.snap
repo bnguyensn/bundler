@@ -1,0 +1,58 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Application renders successfully 1`] = `
+<div>
+  <div
+    class="app"
+  >
+    <h1>
+      Hello, world!
+    </h1>
+    <div
+      class="section"
+    >
+      Here's a large cat:
+      <img
+        alt="A cat"
+        src="test-file-stub"
+      />
+    </div>
+    <div
+      class="section"
+    >
+      Here's a small cat (this image is inlined using url-loader):
+      <img
+        alt="A cat"
+        src="test-file-stub"
+      />
+    </div>
+    <div
+      class="section"
+    >
+      Here's an SVG loaded as a React component:
+      <svg-mock
+        title="JavaScript logo"
+      />
+    </div>
+    <div
+      class="section"
+    >
+      Here's an SVG loaded as an embedded img element:
+      <img
+        alt="JavaScript logo"
+        src="[object Object]"
+        style="width: 100px; height: 100px;"
+      />
+    </div>
+    <div
+      class="section"
+    >
+      Here's a component with SVG background loaded using url-loader:
+      <div
+        class="has-svg-background"
+        title="JavaScript logo"
+      />
+    </div>
+  </div>
+</div>
+`;
