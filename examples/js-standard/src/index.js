@@ -23,7 +23,11 @@ if (module.hot) {
 }
 
 // Should only do in production mode and if we have a service worker file.
-if ('serviceWorker' in navigator && DEFINEPLUGIN_SERVICEWORKER) {
+if (
+  'serviceWorker' in navigator &&
+  DEFINEPLUGIN_SERVICEWORKER &&
+  !DEFINEPLUGIN_DEVMODE
+) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('/service-worker.js');
   });
