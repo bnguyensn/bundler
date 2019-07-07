@@ -23,7 +23,7 @@ const userConfig = Object.assign(
     {},
 );
 
-// webpack mode (development or production)
+// Run mode (development / production / test)
 const mode = process.argv[2];
 
 const config = {
