@@ -26,75 +26,88 @@ const userConfig = Object.assign(
 // Run mode (development / production / test)
 const mode = process.argv[2];
 
-const config = {
-  // Not configurable via package.json
-  dirname: userDirname,
-  mode: mode === 'prod' ? 'production' : 'development',
+if (mode === 'test') {
+  const jest = require('jest');
 
-  // Configurable via package.json
-  entryPath: userConfig.entryPath,
-  htmlWebpackPluginTemplatePath: userConfig.htmlWebpackPluginTemplatePath,
-  htmlWebpackPluginFaviconPath: userConfig.htmlWebpackPluginFaviconPath,
-  pwaManifestTemplate: userConfig.pwaManifestTemplatePath
-    ? require(path.resolve(userDirname, userConfig.pwaManifestTemplatePath))
-    : null,
-  serviceWorkerFilePath: userConfig.serviceWorkerFilePath,
-  webpackDevServerPort: userConfig.webpackDevServerPort,
-  useTypeScript: userConfig.useTypeScript,
-};
+  const jestConfigPath = path.resolve(__dirname, '../jest.config.js');
+  const jestConfig = require(jestConfigPath);
 
-const webpackConfig = webpackConfigFn(config);
-
-// ======================================= //
-// ========== START THE PROGRAM ========== //
-// ======================================= //
-
-console.log('');
-console.log(chalk.blue('Running bundler...'));
-console.log(`Mode: ${chalk.blue(mode)}`);
-console.log(`Current directory: ${chalk.blue(userDirname)}`);
-console.log('');
-
-const compiler = webpack(webpackConfig);
-
-if (mode === 'prod') {
-  /*
-   * The output directory structure is:
-   * dist
-   * |--index.html
-   * |--static
-   * |  |--// built assets...
-   * webpackRecords.json
-   *
-   * The commands below remove the top-level 'dist' folder as well as the
-   * webpackRecords.json before every production build. These paths are based on
-   * configurations in webpackConfig. If you change webpackConfig paths, you
-   * should change these removers as well.
-   * */
-  shell.rm('-rf', path.resolve(config.dirname, 'dist'));
-  shell.rm('-rf', path.resolve(config.dirname, 'webpackRecords.json'));
-
-  compiler.run((err, stats) => {
-    if (err) {
-      console.error(err.stack || err);
-      if (err.details) {
-        console.error(err.details);
-      }
-      return;
-    }
-
-    console.log(stats.toString({ colors: true }));
-  });
+  jest.run([`--config=${JSON.stringify(jestConfig)}`]);
 } else {
-  const webpackDevServerConfig = Object.assign({}, webpackConfig.devServer);
+  bundle();
+}
 
-  const server = new WebpackDevServer(compiler, webpackDevServerConfig);
+function bundle() {
+  const config = {
+    // Not configurable via package.json
+    dirname: userDirname,
+    mode: mode === 'prod' ? 'production' : 'development',
 
-  server.listen(config.webpackDevServerPort, '127.0.0.1', () => {
-    console.log(
-      chalk.greenBright(
-        `Starting webpack-dev-server on http://localhost:${config.webpackDevServerPort}`,
-      ),
-    );
-  });
+    // Configurable via package.json
+    entryPath: userConfig.entryPath,
+    htmlWebpackPluginTemplatePath: userConfig.htmlWebpackPluginTemplatePath,
+    htmlWebpackPluginFaviconPath: userConfig.htmlWebpackPluginFaviconPath,
+    pwaManifestTemplate: userConfig.pwaManifestTemplatePath
+      ? require(path.resolve(userDirname, userConfig.pwaManifestTemplatePath))
+      : null,
+    serviceWorkerFilePath: userConfig.serviceWorkerFilePath,
+    webpackDevServerPort: userConfig.webpackDevServerPort,
+    useTypeScript: userConfig.useTypeScript,
+  };
+
+  const webpackConfig = webpackConfigFn(config);
+
+  // ======================================= //
+  // ========== START THE PROGRAM ========== //
+  // ======================================= //
+
+  console.log('');
+  console.log(chalk.blue('Running bundler...'));
+  console.log(`Mode: ${chalk.blue(mode)}`);
+  console.log(`Current directory: ${chalk.blue(userDirname)}`);
+  console.log('');
+
+  const compiler = webpack(webpackConfig);
+
+  if (mode === 'prod') {
+    /*
+     * The output directory structure is:
+     * dist
+     * |--index.html
+     * |--static
+     * |  |--// built assets...
+     * webpackRecords.json
+     *
+     * The commands below remove the top-level 'dist' folder as well as the
+     * webpackRecords.json before every production build. These paths are based on
+     * configurations in webpackConfig. If you change webpackConfig paths, you
+     * should change these removers as well.
+     * */
+    shell.rm('-rf', path.resolve(config.dirname, 'dist'));
+    shell.rm('-rf', path.resolve(config.dirname, 'webpackRecords.json'));
+
+    compiler.run((err, stats) => {
+      if (err) {
+        console.error(err.stack || err);
+        if (err.details) {
+          console.error(err.details);
+        }
+        return;
+      }
+
+      console.log(stats.toString({ colors: true }));
+    });
+  } else {
+    const webpackDevServerConfig = Object.assign({}, webpackConfig.devServer);
+
+    const server = new WebpackDevServer(compiler, webpackDevServerConfig);
+
+    server.listen(config.webpackDevServerPort, '127.0.0.1', () => {
+      console.log(
+        chalk.greenBright(
+          `Starting webpack-dev-server on http://localhost:${config.webpackDevServerPort}`,
+        ),
+      );
+    });
+  }
 }

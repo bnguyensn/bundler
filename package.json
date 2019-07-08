@@ -6,7 +6,8 @@
   "bin": "./bin/bundler.js",
   "scripts": {
     "test": "jest",
-    "test-js": "jest \"examples/js-standard\" ",
+    "test-js": "jest \"examples/js-standard/src\"",
+    "test-js-2": "cd examples/js-standard && node ../../bin/bundler.js test && cd ..",
     "dev": "cd examples/js-standard && node ../../bin/bundler.js dev && cd ..",
     "dev-ts": "cd examples/ts-standard && node ../../bin/bundler.js dev && cd ..",
     "prod": "cd examples/js-standard && node ../../bin/bundler.js prod && cd ..",
@@ -94,17 +95,6 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
-    ]
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
-      "\\.svg$": "<rootDir>/__mocks__/svgMock.js",
-      "\\.module.(css|less)$": "identity-obj-proxy",
-      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
-    },
-    "setupFilesAfterEnv": [
-      "jest-extended"
     ]
   }
 }

@@ -1,9 +1,7 @@
 import React from 'react';
 import {
   render,
-  fireEvent,
   cleanup,
-  waitForElement,
 } from '@testing-library/react';
 import 'jest-dom/extend-expect';
 import App from './App';
@@ -17,7 +15,6 @@ test.only('Application renders successfully', () => {
     getAllByTitle,
     getAllByAltText,
     container,
-    asFragment,
   } = render(<App />);
 
   // Map out our UI nodes
