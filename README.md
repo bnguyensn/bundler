@@ -1,6 +1,15 @@
 # Bundler
 
-A standard build tool for my single-page web applications.
+A single-page React application builder. 
+
+## Foreword
+
+This was created to help me learn [webpack](http://webpack.js.org/)
+and how to set up a web application up with it (hence the name _bundler_). A 
+lot of good ideas are lifted from [create-react-app](https://github.com/facebook/create-react-app).
+
+The recommended way to create a React web application is of course still 
+[create-react-app](https://github.com/facebook/create-react-app). 
 
 ## Install
 
@@ -50,11 +59,11 @@ Field | Type | Default | Description
 
 This package exports the `bundler.js` executable in `bin`.
 
-This executable, when runs, will either start a `webpack-dev-server` for development or build a production build using configurations from:
- 
-* The executable itself
-* The package's `index.js` (the package's webpack configuration file)
-* The user's `package.json`
+This executable will do one of the following actions as specified by the user:
+
+* `dev`: start a `webpack-dev-server` for development purpose
+* `prod`: bundle files for production using webpack
+* `test`: run tests using Jest
 
 ## What your project should look like?
 
@@ -67,15 +76,11 @@ within the same folder.
 
 ## Development
 
+The tool's entry point is `bin/bundler.js`. Start from there.
+
 * `yarn test` or `npm test`: run all tests.
 
-* `yarn dev` or `npm dev`: start a development run.
-
-* `yarn prod` or `npm prod`: start a production build. Note that the process will create a `node_modules/.cache/terser-webpack-plugin` folder in the relevant example folder. This is just `terser-webpack-plugin` caching its build results to improve build performance.
-
 * `yarn server` or `npm server`: start a localhost server to serve production-bundled files.
-
-The tool's entry point is in `bin/bundler.js`. Start from there.
 
 ## To-do
 

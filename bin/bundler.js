@@ -12,7 +12,7 @@ const chalk = require('chalk');
 // webpack
 const webpack = require('webpack');
 const WebpackDevServer = require('webpack-dev-server');
-const webpackConfigFn = require('../index');
+const webpackConfigFn = require('../configs/webpack.config');
 
 // Runtime variables / user config variables specified via package.json
 const userDirname = path.resolve(process.cwd());
@@ -29,7 +29,7 @@ const mode = process.argv[2];
 if (mode === 'test') {
   const jest = require('jest');
 
-  const jestConfigPath = path.resolve(__dirname, '../jest.config.js');
+  const jestConfigPath = path.resolve(__dirname, '../configs/jest.config.js');
   const jestConfig = require(jestConfigPath);
 
   jest.run([`--config=${JSON.stringify(jestConfig)}`]);
