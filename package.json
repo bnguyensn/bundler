@@ -5,9 +5,9 @@
   "main": "index.js",
   "bin": "./bin/bundler.js",
   "scripts": {
-    "dev-js": "cd examples/js-standard && node ../../bin/index.js dev && cd ..",
-    "prod-js": "cd examples/js-standard && node ../../bin/index.js prod && cd ..",
-    "test-js": "cd examples/js-standard && node ../../bin/index.js test && cd ..",
+    "dev-js": "cd examples/js-standard && node ../../bin/bundler.js dev && cd ..",
+    "prod-js": "cd examples/js-standard && node ../../bin/bundler.js prod && cd ..",
+    "test-js": "cd examples/js-standard && node ../../bin/bundler.js test && cd ..",
     "dev-ts": "cd examples/ts-standard && node ../../bin/bundler.js dev && cd ..",
     "prod-ts": "cd examples/ts-standard && node ../../bin/bundler.js prod && cd ..",
     "server": "cd examples/js-standard && node server/server.js && cd ../..",
