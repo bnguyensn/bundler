@@ -10,6 +10,7 @@
 const path = require('path');
 const scripts = require('../lib/scripts');
 const generateConfig = require('../lib/generateConfig');
+const log = require('../lib/log');
 
 const mode = process.argv[2];
 
@@ -27,4 +28,9 @@ if (mode === 'test') {
   const config = generateConfig(webpackMode, srcPath);
 
   scripts[mode](config);
+} else {
+  log.error(`Command ${mode} is not available. Please use one of these:`);
+  console.log('  test');
+  console.log('  dev');
+  console.log('  prod');
 }
