@@ -27,6 +27,7 @@ initScript(mode, srcPath).then(
   },
   (err) => {
     log.errorEOL('Process did not finish due to an error.');
+    process.exit(1);
   },
 );
 
