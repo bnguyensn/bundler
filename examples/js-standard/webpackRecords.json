@@ -11,39 +11,25 @@
         "usedIds": [
           0
         ]
-      }
-    }
-  ],
-  "mini-css-extract-plugin ../../node_modules/css-loader/dist/cjs.js??ref--5-1!../../node_modules/postcss-loader/src/index.js??postcss!src/styles/global.css": [
-    {
-      "modules": {
-        "byIdentifier": {},
-        "usedIds": {}
       },
-      "chunks": {
-        "byName": {
-          "mini-css-extract-plugin": 0
-        },
-        "bySource": {},
-        "usedIds": [
-          0
-        ]
-      }
-    }
-  ],
-  "mini-css-extract-plugin ../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../node_modules/postcss-loader/src/index.js??postcss!src/styles/section.module.css": [
-    {
-      "modules": {
-        "byIdentifier": {},
-        "usedIds": {}
+      "prepreHash": "x",
+      "preHash": "aa628606b1d1498004e1",
+      "hash": "32dc72e2b7c2e699c1b3",
+      "moduleHashs": {
+        "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\html-webpack-plugin\\lib\\loader.js!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\examples\\js-standard\\src\\assets\\html\\index.html": "c02680a272a09b7e9c8037ebb8d34123",
+        "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\lodash\\lodash.js": "63ee5fd7e84bd0749d220f0ef4d1b4e4",
+        "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\webpack\\buildin\\global.js": "b85b1ee15b51aa8c68cc8fc9d5767fcb",
+        "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\webpack\\buildin\\module.js": "dde9336adc3f2d973a3450db5dfd7c3d"
       },
-      "chunks": {
-        "byName": {
-          "mini-css-extract-plugin": 0
-        },
-        "bySource": {},
-        "usedIds": [
-          0
+      "chunkHashs": {
+        "0": "565f594a7cd5189999c84498c7263322"
+      },
+      "chunkModuleIds": {
+        "0": [
+          "../../node_modules/html-webpack-plugin/lib/loader.js!./src/assets/html/index.html",
+          "../../node_modules/lodash/lodash.js",
+          "../../node_modules/webpack/buildin/global.js",
+          "../../node_modules/webpack/buildin/module.js"
         ]
       }
     }
@@ -53,16 +39,109 @@
     "usedIds": {}
   },
   "chunks": {
-    "byName": {
-      "index": 0,
-      "runtime": 1,
-      "vendors": 2
-    },
+    "byName": {},
     "bySource": {},
-    "usedIds": [
-      0,
-      1,
-      2
+    "usedIds": []
+  },
+  "prepreHash": "x",
+  "preHash": "1138c70a06d20cbcd010",
+  "hash": "2a0672ff1d675e4b4b67",
+  "moduleHashs": {
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\css-loader\\dist\\cjs.js??ref--5-1!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\postcss-loader\\src\\index.js??postcss!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\examples\\js-standard\\src\\styles\\global.css": "db645e020215a2153c329fd267a9d3e5",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\css-loader\\dist\\cjs.js??ref--6-1!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\postcss-loader\\src\\index.js??postcss!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\examples\\js-standard\\src\\styles\\section.module.css": "f203eae080177912ad123442892821a6",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\css-loader\\dist\\runtime\\api.js": "77bdb77001f3c87a52c45486fb88b0e0",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\css-loader\\dist\\runtime\\getUrl.js": "ca6b445a3e167dcbdc1e868bf501c91f",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\fast-levenshtein\\levenshtein.js": "6118d4b20c592a760c97c42bb636aa13",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\hoist-non-react-statics\\dist\\hoist-non-react-statics.cjs.js": "150396bdd4b885a1502be20201e178a9",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\object-assign\\index.js": "9cd30a565c28959befe2c935fbc51550",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\prop-types\\checkPropTypes.js": "cb9a1a0735b3e74ecace20de952c2658",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\prop-types\\factoryWithTypeCheckers.js": "5e13f260520c13d1abe166dd334e97fd",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\prop-types\\index.js": "8bb0081385e5b123cf3ef568b8891a8b",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\prop-types\\lib\\ReactPropTypesSecret.js": "0b6602327b0ad32d6dde223190f24a1e",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\react-dom\\cjs\\react-dom.development.js": "760ebd740966ea4856c50994187d5195",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\react-dom\\index.js": "4e0365a0c05b264aed4036d9a065584e",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\react-hot-loader\\dist\\react-hot-loader.development.js": "d473d0efe4727cae2288c58c5c7fc644",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\react-hot-loader\\dist\\react-hot-loader.production.min.js": "2b1ddeb7c6d766810b3d255dcfc35a7e",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\react-hot-loader\\index.js": "479813af00fb62e6feda26e6d3bae8a2",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\react-is\\cjs\\react-is.development.js": "f3f8d27f4f985330a9e5f1bbe9c1423b",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\react-is\\index.js": "9b76323a7de3e89ef34dabfb909253e5",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\react-lifecycles-compat\\react-lifecycles-compat.es.js": "c8bcbbbe74403270efae1ceee5c7292c",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\react\\cjs\\react.development.js": "0f9f808dda5450f076a6d6280209c237",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\react\\index.js": "78118ccccfee47c24ff2d7429bcfc031",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\scheduler\\cjs\\scheduler-tracing.development.js": "d6e5f8151d95c74c934527aa43196767",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\scheduler\\cjs\\scheduler.development.js": "21a6b9a3e490147c1829472db594755c",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\scheduler\\index.js": "e426b6d87fbded99c2d82dcda1231ebb",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\scheduler\\tracing.js": "e6df39e64e14c239615342b12f74e71a",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\shallowequal\\index.js": "93650b5f74c42295735f876fd624350f",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\style-loader\\lib\\addStyles.js": "6cb9a54b008347a18490d8c22b23715c",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\style-loader\\lib\\urls.js": "fc5859815ccae49e3e1e975de7435cca",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\webpack\\buildin\\amd-define.js": "e923ab3da8c7ba0966a720ead32e1b46",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\webpack\\buildin\\amd-options.js": "66bc5d2bb5fc24c5d47590c29531fedd",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\webpack\\buildin\\global.js": "b85b1ee15b51aa8c68cc8fc9d5767fcb",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\webpack\\buildin\\harmony-module.js": "d9048ca23d5077b70f652d18ec917dc6",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\webpack\\buildin\\module.js": "dde9336adc3f2d973a3450db5dfd7c3d",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\babel-loader\\lib\\index.js??ref--4!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\examples\\js-standard\\src\\App.js": "89856463f8ff9e0926a6b7ca57a352aa",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\babel-loader\\lib\\index.js??ref--4!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\examples\\js-standard\\src\\components\\Section.js": "536e24def5015aee0da198f69d93e22b",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\url-loader\\dist\\cjs.js??ref--7!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\image-webpack-loader\\index.js??ref--10!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\examples\\js-standard\\src\\img\\cat-large.jpg": "d441629ab65fba11e8e0afbab425c25d",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\url-loader\\dist\\cjs.js??ref--7!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\image-webpack-loader\\index.js??ref--10!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\examples\\js-standard\\src\\img\\cat-small.jpg": "b1ae2576e7ac4948f69287d96bf4d0c2",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\babel-loader\\lib\\index.js??ref--4!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\examples\\js-standard\\src\\index.js": "b74d2f73c75d455f0b7ea528c689cac8",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\style-loader\\index.js!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\css-loader\\dist\\cjs.js??ref--5-1!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\postcss-loader\\src\\index.js??postcss!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\examples\\js-standard\\src\\styles\\global.css": "8b759bfcc3c8c047886c4e805f40063e",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\style-loader\\index.js!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\css-loader\\dist\\cjs.js??ref--6-1!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\postcss-loader\\src\\index.js??postcss!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\examples\\js-standard\\src\\styles\\section.module.css": "a44a3d94dbffc8d53127d4429bc80925",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\@svgr\\webpack\\lib\\index.js!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\svg-url-loader\\index.js??ref--9!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\image-webpack-loader\\index.js??ref--10!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\examples\\js-standard\\src\\svg\\javascript-logo.svg": "1299b2845e2ca9e0a427f891b67ad148",
+    "E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\svg-url-loader\\index.js??ref--9!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\node_modules\\image-webpack-loader\\index.js??ref--10!E:\\Libraries\\Documents\\PhpstormProjects\\@bnguyensn\\bundler\\examples\\js-standard\\src\\svg\\javascript-logo.svg": "d68e91eaecd113713319b0fdc2223d4c"
+  },
+  "chunkHashs": {
+    "index": "ce09ce2941314895b29235ef7c262fe8",
+    "runtime~index": "9367ab753a1ed0ee3d3ffd1f78c11294",
+    "vendors": "da0e0189161f8513a86ab677cdb0eecb"
+  },
+  "chunkModuleIds": {
+    "index": [
+      "../../node_modules/css-loader/dist/cjs.js?!../../node_modules/postcss-loader/src/index.js?!./src/styles/global.css",
+      "../../node_modules/css-loader/dist/cjs.js?!../../node_modules/postcss-loader/src/index.js?!./src/styles/section.module.css",
+      "./src/App.js",
+      "./src/components/Section.js",
+      "./src/img/cat-large.jpg",
+      "./src/img/cat-small.jpg",
+      "./src/index.js",
+      "./src/styles/global.css",
+      "./src/styles/section.module.css",
+      "./src/svg/javascript-logo.svg?3742",
+      "./src/svg/javascript-logo.svg?549e"
+    ],
+    "runtime~index": [],
+    "vendors": [
+      "../../node_modules/css-loader/dist/runtime/api.js",
+      "../../node_modules/css-loader/dist/runtime/getUrl.js",
+      "../../node_modules/fast-levenshtein/levenshtein.js",
+      "../../node_modules/hoist-non-react-statics/dist/hoist-non-react-statics.cjs.js",
+      "../../node_modules/object-assign/index.js",
+      "../../node_modules/prop-types/checkPropTypes.js",
+      "../../node_modules/prop-types/factoryWithTypeCheckers.js",
+      "../../node_modules/prop-types/index.js",
+      "../../node_modules/prop-types/lib/ReactPropTypesSecret.js",
+      "../../node_modules/react-dom/cjs/react-dom.development.js",
+      "../../node_modules/react-dom/index.js",
+      "../../node_modules/react-hot-loader/dist/react-hot-loader.development.js",
+      "../../node_modules/react-hot-loader/dist/react-hot-loader.production.min.js",
+      "../../node_modules/react-hot-loader/index.js",
+      "../../node_modules/react-is/cjs/react-is.development.js",
+      "../../node_modules/react-is/index.js",
+      "../../node_modules/react-lifecycles-compat/react-lifecycles-compat.es.js",
+      "../../node_modules/react/cjs/react.development.js",
+      "../../node_modules/react/index.js",
+      "../../node_modules/scheduler/cjs/scheduler-tracing.development.js",
+      "../../node_modules/scheduler/cjs/scheduler.development.js",
+      "../../node_modules/scheduler/index.js",
+      "../../node_modules/scheduler/tracing.js",
+      "../../node_modules/shallowequal/index.js",
+      "../../node_modules/style-loader/lib/addStyles.js",
+      "../../node_modules/style-loader/lib/urls.js",
+      "../../node_modules/webpack/buildin/amd-define.js",
+      "../../node_modules/webpack/buildin/amd-options.js",
+      "../../node_modules/webpack/buildin/global.js",
+      "../../node_modules/webpack/buildin/harmony-module.js",
+      "../../node_modules/webpack/buildin/module.js"
     ]
   }
 }

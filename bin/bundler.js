@@ -1,36 +1,38 @@
 #!/usr/bin/env node
 
 /**
- * There is only this command for our tool...
+ * There is only this one command for our tool...
  * npx @bnguyensn/bundler xxx
  *
  * ...where xxx = test | dev | prod
  * */
 
 const path = require('path');
-const scripts = require('../lib/scripts');
-const generateConfig = require('../lib/generateConfig');
+const { performance, PerformanceObserver } = require('perf_hooks');
+const initScript = require('../lib/scripts/init');
 const log = require('../lib/log');
+const roundMs = require('../lib/roundMs');
 
+// Expected to be one of: test | dev | prod
 const mode = process.argv[2];
+// Path to the project that we're building
+const srcPath = path.resolve(process.cwd());
 
-if (mode === 'test') {
-  // Initiate tests 🚨...
+performance.mark('processStart');
 
-  scripts.test();
-} else if (mode === 'dev' || mode === 'prod') {
-  // Initiate dev / prod webpack run 🛠️
+initScript(mode, srcPath).then(
+  () => {
+    performance.mark('processEnd');
+    performance.measure('process', 'processStart', 'processEnd');
+  },
+  (err) => {
+    log.errorEOL(`Error occurred: ${err}`);
+  },
+);
 
-  const webpackMode =
-    mode === 'dev' ? 'development' : mode === 'prod' ? 'production' : '';
-  const srcPath = path.resolve(process.cwd());
-
-  const config = generateConfig(webpackMode, srcPath);
-
-  scripts[mode](config);
-} else {
-  log.error(`Command ${mode} is not available. Please use one of these:`);
-  console.log('  test');
-  console.log('  dev');
-  console.log('  prod');
-}
+const obs = new PerformanceObserver((list, obs) => {
+  const dur = list.getEntriesByName('process')[0].duration;
+  log.infoEOL(`Total time taken: ${roundMs(dur)}`);
+  obs.disconnect();
+});
+obs.observe({ entryTypes: ['measure'] });
