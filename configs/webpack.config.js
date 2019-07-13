@@ -28,7 +28,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 // workbox-webpack-plugin is temporarily disabled until Workbox 5
 // https://github.com/GoogleChrome/workbox/issues/1513
 // const { InjectManifest } = require('workbox-webpack-plugin');
-const SWPlugin = require('./lib/SWPlugin/SWPlugin');
+const SWPlugin = require('../lib/SWPlugin/SWPlugin');
 
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
