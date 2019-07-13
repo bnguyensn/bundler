@@ -26,7 +26,7 @@ initScript(mode, srcPath).then(
     performance.measure('process', 'processStart', 'processEnd');
   },
   (err) => {
-    log.errorEOL(`Error occurred: ${err}`);
+    log.errorEOL('Process did not finish due to an error.');
   },
 );
 
