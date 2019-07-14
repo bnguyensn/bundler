@@ -26,6 +26,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
+const WorkerPlugin = require('worker-plugin');
 
 // workbox-webpack-plugin is temporarily disabled until Workbox 5
 // https://github.com/GoogleChrome/workbox/issues/1513
@@ -408,12 +409,15 @@ module.exports = runtimeConfig => {
       // Option values are taken from a JSON or JavaScript file as defined
       // in the user's package.json file. If no such file is found, this
       // plugin will not be used.
-      // Note that this plugin should be defined AFTER
-      // html-webpack-plugin.
+      // Note that this plugin should be defined AFTER html-webpack-plugin.
       // https://github.com/arthurbergmz/webpack-pwa-manifest
       runtimeConfig.pwaManifestTemplate
         ? new WebpackPWAManifest(runtimeConfig.pwaManifestTemplate)
         : () => {},
+
+      // *** Web Worker ***
+      // https://github.com/GoogleChromeLabs/worker-plugin
+      new WorkerPlugin(),
 
       // This plugin runs the type checker on a separate process, allowing our
       // build to remain fast while retaining type checking.
