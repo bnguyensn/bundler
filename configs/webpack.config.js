@@ -415,10 +415,6 @@ module.exports = runtimeConfig => {
         ? new WebpackPWAManifest(runtimeConfig.pwaManifestTemplate)
         : () => {},
 
-      // *** Web Worker ***
-      // https://github.com/GoogleChromeLabs/worker-plugin
-      new WorkerPlugin(),
-
       // This plugin runs the type checker on a separate process, allowing our
       // build to remain fast while retaining type checking.
       runtimeConfig.useTypeScript
@@ -501,9 +497,8 @@ module.exports = runtimeConfig => {
               : () => {}, // Note: 'null' or 'undefined' is not allowed
 
             // *** Caching (production) ***
-            // Output chunks' hashes could change due to
-            // changes in module.id and our caches will be busted
-            // unintentionally.
+            // Output chunks' hashes could change due to changes in module.id
+            // and our caches will be busted unintentionally.
             // The HashedModuleIdsPlugin causes hashes to be based on the
             // relative paths of modules and prevent this issue.
             // For development builds, we use NamedModulesPlugin instead. This
@@ -519,6 +514,10 @@ module.exports = runtimeConfig => {
               openAnalyzer: false,
             }),
           ]),
+
+      // *** Web Worker ***
+      // https://github.com/GoogleChromeLabs/worker-plugin
+      new WorkerPlugin(),
 
       // *** Webpack Manifest ***
       // webpack's manifest is a file that tracks how all modules map to output

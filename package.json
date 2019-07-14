@@ -8,6 +8,7 @@
     "dev-js": "cd examples/js-standard && node ../../bin/bundler.js dev && cd ..",
     "prod-js": "cd examples/js-standard && node ../../bin/bundler.js prod && cd ..",
     "test-js": "cd examples/js-standard && node ../../bin/bundler.js test && cd ..",
+    "test-u-js": "cd examples/js-standard && node ../../bin/bundler.js test -u && cd ..",
     "dev-ts": "cd examples/ts-standard && node ../../bin/bundler.js dev && cd ..",
     "prod-ts": "cd examples/ts-standard && node ../../bin/bundler.js prod && cd ..",
     "server": "cd examples/js-standard && node server/server.js && cd ../..",
