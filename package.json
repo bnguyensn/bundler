@@ -13,7 +13,7 @@
     "prod-ts": "cd examples/ts-standard && node ../../bin/bundler.js prod && cd ..",
     "server": "cd examples/js-standard && node server/server.js && cd ../..",
     "prettier": "prettier --write \"**/*.@(js|ts)\"",
-    "preversion": "prettier --check \"**/*.@(js|ts)\" && yarn test",
+    "preversion": "prettier --check \"**/*.@(js|ts)\"",
     "postversion": "npm publish",
     "postpublish": "git push origin master"
   },
