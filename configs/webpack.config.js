@@ -24,15 +24,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPWAManifest = require('webpack-pwa-manifest');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
 
 // workbox-webpack-plugin is temporarily disabled until Workbox 5
 // https://github.com/GoogleChrome/workbox/issues/1513
 // const { InjectManifest } = require('workbox-webpack-plugin');
 const SWPlugin = require('../lib/SWPlugin/SWPlugin');
 
+// TypeScript plugin
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
 
 // ********** GLOBALS ********** //
 
