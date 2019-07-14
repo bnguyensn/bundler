@@ -1,5 +1,6 @@
 import React from 'react';
 import Section from './components/Section';
+import Worker from './components/Worker';
 import catLarge from './img/cat-large.jpg';
 import catSmall from './img/cat-small.jpg';
 import jsLogoURL, { ReactComponent as JSLogo } from './svg/javascript-logo.svg';
@@ -35,6 +36,7 @@ export default function App() {
         Here's a component with SVG background loaded using url-loader:
         <div className="has-svg-background" title="JavaScript logo" />
       </Section>
+      <Worker />
     </div>
   );
 }

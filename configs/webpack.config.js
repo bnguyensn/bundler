@@ -24,15 +24,17 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPWAManifest = require('webpack-pwa-manifest');
 const TerserPlugin = require('terser-webpack-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
+const WorkerPlugin = require('worker-plugin');
 
 // workbox-webpack-plugin is temporarily disabled until Workbox 5
 // https://github.com/GoogleChrome/workbox/issues/1513
 // const { InjectManifest } = require('workbox-webpack-plugin');
 const SWPlugin = require('../lib/SWPlugin/SWPlugin');
 
+// TypeScript plugin
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
 
 // ********** GLOBALS ********** //
 
@@ -407,8 +409,7 @@ module.exports = runtimeConfig => {
       // Option values are taken from a JSON or JavaScript file as defined
       // in the user's package.json file. If no such file is found, this
       // plugin will not be used.
-      // Note that this plugin should be defined AFTER
-      // html-webpack-plugin.
+      // Note that this plugin should be defined AFTER html-webpack-plugin.
       // https://github.com/arthurbergmz/webpack-pwa-manifest
       runtimeConfig.pwaManifestTemplate
         ? new WebpackPWAManifest(runtimeConfig.pwaManifestTemplate)
@@ -496,9 +497,8 @@ module.exports = runtimeConfig => {
               : () => {}, // Note: 'null' or 'undefined' is not allowed
 
             // *** Caching (production) ***
-            // Output chunks' hashes could change due to
-            // changes in module.id and our caches will be busted
-            // unintentionally.
+            // Output chunks' hashes could change due to changes in module.id
+            // and our caches will be busted unintentionally.
             // The HashedModuleIdsPlugin causes hashes to be based on the
             // relative paths of modules and prevent this issue.
             // For development builds, we use NamedModulesPlugin instead. This
@@ -514,6 +514,10 @@ module.exports = runtimeConfig => {
               openAnalyzer: false,
             }),
           ]),
+
+      // *** Web Worker ***
+      // https://github.com/GoogleChromeLabs/worker-plugin
+      new WorkerPlugin(),
 
       // *** Webpack Manifest ***
       // webpack's manifest is a file that tracks how all modules map to output

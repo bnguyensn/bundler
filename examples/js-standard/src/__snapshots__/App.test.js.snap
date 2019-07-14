@@ -53,6 +53,13 @@ exports[`Application renders successfully 1`] = `
         title="JavaScript logo"
       />
     </div>
+    <div
+      class="worker"
+    >
+      <div>
+        Your browser does not support Web Worker 😔
+      </div>
+    </div>
   </div>
 </div>
 `;
