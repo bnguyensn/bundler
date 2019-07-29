@@ -8,7 +8,7 @@ This was created to help me learn [webpack](http://webpack.js.org/)
 and how to set up a web application up with it (hence the name _bundler_). A 
 lot of good ideas are lifted from [create-react-app](https://github.com/facebook/create-react-app).
 
-The recommended way to create a React web application is of course still 
+The recommended way to create a React web application is still 
 [create-react-app](https://github.com/facebook/create-react-app). 
 
 ## Install

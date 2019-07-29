@@ -1,8 +1,8 @@
 /**
  * This file exports a function that that returns a webpack config object. The
  * function takes 1 parameter: an object containing variables only known at
- * run time (e.g. user's top-level directory path).
- * */
+ * runtime (e.g. user's top-level directory path).
+ */
 
 // ********** IMPORTS ********** //
 
@@ -30,7 +30,7 @@ const WorkerPlugin = require('worker-plugin');
 
 // workbox-webpack-plugin is temporarily disabled until Workbox 5
 // https://github.com/GoogleChrome/workbox/issues/1513
-// const { InjectManifest } = require('workbox-webpack-plugin');
+const { InjectManifest } = require('workbox-webpack-plugin');
 const SWPlugin = require('../lib/SWPlugin/SWPlugin');
 
 // TypeScript plugin
@@ -53,7 +53,7 @@ const globals = {
  * @param {boolean} devMode - Is this a development build?
  * @param {boolean} cssModules - Are the loaders used for CSS modules files?
  * @returns {Object}[] - An array of loaders for CSS files.
- * */
+ */
 function getCSSLoaders(devMode, cssModules) {
   return [
     // *** 1st loader ***
@@ -141,7 +141,7 @@ function getCSSLoaders(devMode, cssModules) {
  * @param {Object} runtimeConfig: an object containing variables only known at
  * runtime
  * @returns {Object}: a webpack config object
- * */
+ */
 module.exports = runtimeConfig => {
   const devMode = runtimeConfig.mode === 'development';
 
@@ -179,7 +179,7 @@ module.exports = runtimeConfig => {
       publicPath: '/',
 
       // [contenthash]: change based on the asset's content
-      // Howev er, contenthash will not stay the same between builds even if the
+      // However, contenthash will not stay the same between builds even if the
       // asset's content hasn't changed. To make contenthash deterministic, we
       // need to extract out webpack's runtime and manifest (together
       // "boilerplate"). This can be achieved via the SplitChunksPlugin.
@@ -468,33 +468,32 @@ module.exports = runtimeConfig => {
             // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin#injectmanifest_plugin_1
             // Currently not in use until this issue is fixed in Workbox 5:
             // https://github.com/GoogleChrome/workbox/issues/1513
-            /*new InjectManifest({
+            new InjectManifest({
               // Path to the service worker JavaScript file
               swSrc: path.resolve(
                 runtimeConfig.dirname,
-                'src/service-worker.js',
+                runtimeConfig.serviceWorkerFilePath,
               ),
 
               // Path to the service worker and precache manifest JavaScript
               // files that will be built. Note that we want to put this file in
               // the same place as our index.html file.
-              swDest: '../service-worker.js',
-              importsDirectory: '../',
+              swDest: 'service-worker.js',
 
               // Since we already configured webpack to cache bust based on
               // [contenthash], we can tell Workbox to ignore its normal HTTP
               // cache-busting procedure that's done when populating the
               // precache.
               dontCacheBustURLsMatching: /\.\w{20}\./,
-            }),*/
-            runtimeConfig.serviceWorkerFilePath
+            }),
+            /*runtimeConfig.serviceWorkerFilePath
               ? new SWPlugin({
                   serviceWorkerInputFilePath: path.resolve(
                     runtimeConfig.dirname,
                     runtimeConfig.serviceWorkerFilePath,
                   ),
                 })
-              : () => {}, // Note: 'null' or 'undefined' is not allowed
+              : () => {}, // Note: 'null' or 'undefined' is not allowed*/
 
             // *** Caching (production) ***
             // Output chunks' hashes could change due to changes in module.id

@@ -6,7 +6,7 @@
  *
  * ...where mode = test | dev | prod
  * and cliOptions are potential options for the associated mode
- * */
+ */
 
 const path = require('path');
 const { performance, PerformanceObserver } = require('perf_hooks');

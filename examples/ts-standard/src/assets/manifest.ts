@@ -2,7 +2,7 @@
  * This manifest.json configuration object conforms to the options provided by
  * webpack-pwa-manifest. See more here:
  * https://github.com/arthurbergmz/webpack-pwa-manifest
- * */
+ */
 
 const path = require('path');
 
