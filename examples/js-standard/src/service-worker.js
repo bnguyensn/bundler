@@ -56,6 +56,7 @@ self.addEventListener('install', e => {
 // ============ //
 // A fetch event fires when an in-scope resource is requested. An installed
 // service worker will hijack the request and respond with custom data.
+// Fetch events are how service workers serve offline content.
 
 self.addEventListener('fetch', e => {
   console.log('Service worker: fetch event fired!');

@@ -27,11 +27,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const WorkerPlugin = require('worker-plugin');
-
-// workbox-webpack-plugin is temporarily disabled until Workbox 5
-// https://github.com/GoogleChrome/workbox/issues/1513
 const { InjectManifest } = require('workbox-webpack-plugin');
-const SWPlugin = require('../lib/SWPlugin/SWPlugin');
 
 // TypeScript plugin
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -466,8 +462,6 @@ module.exports = runtimeConfig => {
             // *** PWA - Offline Support (production) ***
             // https://webpack.js.org/guides/progressive-web-application#adding-workbox
             // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin#injectmanifest_plugin_1
-            // Currently not in use until this issue is fixed in Workbox 5:
-            // https://github.com/GoogleChrome/workbox/issues/1513
             new InjectManifest({
               // Path to the service worker JavaScript file
               swSrc: path.resolve(
@@ -486,14 +480,6 @@ module.exports = runtimeConfig => {
               // precache.
               dontCacheBustURLsMatching: /\.\w{20}\./,
             }),
-            /*runtimeConfig.serviceWorkerFilePath
-              ? new SWPlugin({
-                  serviceWorkerInputFilePath: path.resolve(
-                    runtimeConfig.dirname,
-                    runtimeConfig.serviceWorkerFilePath,
-                  ),
-                })
-              : () => {}, // Note: 'null' or 'undefined' is not allowed*/
 
             // *** Caching (production) ***
             // Output chunks' hashes could change due to changes in module.id
