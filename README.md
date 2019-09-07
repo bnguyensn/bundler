@@ -1,4 +1,4 @@
-# Bundler
+# Bundler 📦
 
 A single-page React application builder.
 
@@ -6,7 +6,8 @@ A single-page React application builder.
 
 This was created to help me learn [webpack](http://webpack.js.org/)
 and how to set up a web application up with it (hence the name _bundler_). A
-lot of good ideas are lifted from [create-react-app](https://github.com/facebook/create-react-app).
+lot of good ideas are lifted from
+[create-react-app](https://github.com/facebook/create-react-app).
 
 The recommended way to create a React web application is still
 [create-react-app](https://github.com/facebook/create-react-app), which is
@@ -16,10 +17,10 @@ supported by the React core team.
 
 ```bash
 // Using npm
-npm i -D @bnguyensn/bundler
+$ npm i -D @bnguyensn/bundler
 
 // Using yarn
-yarn add -D @bnguyensn/bundler
+$ yarn add -D @bnguyensn/bundler
 ```
 
 ## Usage
@@ -47,7 +48,7 @@ Configurations are specified via a `@bnguyensn/bundler` field in the
 `package.json` file. See examples in the `examples` folder.
 
 Available configurations are below. Optional fields are marked accordingly. All
-paths are from the perspective of the top-level project directory (see 
+paths are from the perspective of the top-level project directory (see
 `userDirname` variable in `bin/bundler.js`).
 
 |              Field              |   Type    |    Default     | Description                                                                                                                                                                                                                        |
@@ -86,7 +87,7 @@ The tool's entry point is `bin/bundler.js`. Start from there.
 - `yarn test` or `npm test`: run all tests.
 
 - `yarn server` or `npm server`: start a localhost server to serve
- production-bundled files.
+  production-bundled files.
 
 ## To-do
 
@@ -101,5 +102,5 @@ The tool's entry point is `bin/bundler.js`. Start from there.
 Main webpack config file:
 
 - Investigate why the Google Fonts CDN request fails on page refresh (likely
-due to how the service worker is setup)
+  due to how the service worker is setup)
 - Work through `create-react-app` and bring in more ideas / fixes
