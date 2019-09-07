@@ -1,11 +1,3 @@
-/**
- * To learn how service workers work, visit:
- * https://developers.google.com/web/fundamentals/primers/service-workers/
- * https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API/Using_Service_Workers
- *
- * This template service worker file caches all assets during installation.
- */
-
 // This is how we obtain Workbox's ManifestEntry array, which is an array
 // of objects with keys 'url' and 'revision' for the static assets generated
 // by webpack. Reference:
