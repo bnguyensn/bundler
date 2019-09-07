@@ -71,7 +71,21 @@ This executable will do one of the following actions as specified by the user:
 - `prod`: bundle files for production using webpack
 - `test`: run tests using Jest
 
-## What your project should look like?
+## The build
+
+This section explains our configurations.
+
+### webpack 
+
+#### Workbox
+
+[Workbox](https://github.com/GoogleChrome/workbox/releases) is Google's solution
+for handling service workers.
+
+Workbox is integrated into our build chain via the `InjectManifest` webpack
+plugin. To use it, the user needs to specify the `serviceWorkerFilePath` 
+configuration option, which provides Workbox with the service worker file path.
+A `service-worker.js` file will then be generated as part of our build process. 
 
 ## Gotchas
 

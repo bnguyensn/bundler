@@ -459,9 +459,9 @@ module.exports = runtimeConfig => {
               chunkFilename: 'static/styles/[id].[contenthash].chunk.css',
             }),
 
-            // *** PWA - Offline Support (production) ***
+            // *** Service Worker (production) ***
             // https://webpack.js.org/guides/progressive-web-application#adding-workbox
-            // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin#injectmanifest_plugin_1
+            // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin#injectmanifest_plugin_2
             new InjectManifest({
               // Path to the service worker JavaScript file
               swSrc: path.resolve(
@@ -469,15 +469,15 @@ module.exports = runtimeConfig => {
                 runtimeConfig.serviceWorkerFilePath,
               ),
 
-              // Path to the service worker and precache manifest JavaScript
-              // files that will be built. Note that we want to put this file in
-              // the same place as our index.html file.
-              swDest: 'service-worker.js',
+              // By default, Workbox generates the output as
+              // a 'service-worker.js' file so we don't need to specify swDest.
+              // Note that we want this file to be in the same level as our
+              // index.html file.
 
-              // Since we already configured webpack to cache bust based on
-              // [contenthash], we can tell Workbox to ignore its normal HTTP
-              // cache-busting procedure that's done when populating the
-              // precache.
+              // Since we already configured webpack to cache bust based on a
+              // 20-character [contenthash], we can tell Workbox to ignore its
+              // normal HTTP cache-busting procedure that's done when populating
+              // the precache manifest.
               dontCacheBustURLsMatching: /\.\w{20}\./,
             }),
 

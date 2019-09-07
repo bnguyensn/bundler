@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 
 /**
- * There is only this one command for our tool...
- * npx @bnguyensn/bundler mode [cliOptions]
+ * There is only this one command for our tool:
+ * $ npx @bnguyensn/bundler mode [cliOptions]
  *
  * ...where mode = test | dev | prod
- * and cliOptions are potential options for the associated mode
+ * and cliOptions are potential options for the associated mode.
  */
 
 const path = require('path');
