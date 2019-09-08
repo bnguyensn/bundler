@@ -56,24 +56,37 @@ self.addEventListener('fetch', e => {
   e.respondWith(
     caches
       .match(e.request)
-      .then(
-        res =>
-          // If a resource is not found in the cache, then res will be
-          // undefined. When this happens, we fetch the resource from the
-          // Internet and add it to the cache.
-          res ||
-          fetch(e.request).then(r => {
-            caches.open(latestCacheName).then(cache => {
-              // We put a clone of the request into the cache because
-              // request and response streams can only be consumed once. The
-              // original request will be returned to the browser and the
-              // cloned request will be put into the cache.
-              cache.put(e.request, r.clone());
-            });
-          }),
-      )
+      .then(response => {
+        // If a response is found in the cache then we return it.
+        if (response) return response;
+
+        // If a resource is not found in the cache, then response will be
+        // undefined. When this happens, we fetch the resource from the
+        // Internet and add it to the cache.
+        return fetch(e.request).then(fetchedResponse => {
+          if (
+            !fetchedResponse ||
+            fetchedResponse.status !== 200 ||
+            fetchedResponse.type !== 'basic'
+          ) {
+            return fetchedResponse;
+          }
+
+          // Response is a stream and can only be consumed once. Since we want
+          // both the browser and the cache to consume the response, we need to
+          // clone it for one of them.
+          const fetchedResponseToCache = fetchedResponse.clone();
+
+          caches.open(latestCacheName).then(cache => {
+            cache.put(e.request, fetchedResponseToCache);
+          });
+
+          return fetchedResponse;
+        });
+      })
       .catch(err => {
-        // TODO: give a 404 page? This happens when there is nothing in the cache and the Internet is down
+        // This will happen when there's nothing in the cache and the Internet
+        // is down.
         console.log(
           `Error occurred during the service worker's fetch event: ${err}`,
         );

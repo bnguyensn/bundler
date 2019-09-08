@@ -89,7 +89,9 @@
         "usedIds": {}
       },
       "chunks": {
-        "byName": {},
+        "byName": {
+          "0": 0
+        },
         "bySource": {},
         "usedIds": [
           0
