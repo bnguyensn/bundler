@@ -1,8 +1,8 @@
 /**
  * This file exports a function that that returns a webpack config object. The
  * function takes 1 parameter: an object containing variables only known at
- * run time (e.g. user's top-level directory path).
- * */
+ * runtime (e.g. user's top-level directory path).
+ */
 
 // ********** IMPORTS ********** //
 
@@ -27,11 +27,7 @@ const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
 const WorkerPlugin = require('worker-plugin');
-
-// workbox-webpack-plugin is temporarily disabled until Workbox 5
-// https://github.com/GoogleChrome/workbox/issues/1513
-// const { InjectManifest } = require('workbox-webpack-plugin');
-const SWPlugin = require('../lib/SWPlugin/SWPlugin');
+const { InjectManifest } = require('workbox-webpack-plugin');
 
 // TypeScript plugin
 const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
@@ -53,7 +49,7 @@ const globals = {
  * @param {boolean} devMode - Is this a development build?
  * @param {boolean} cssModules - Are the loaders used for CSS modules files?
  * @returns {Object}[] - An array of loaders for CSS files.
- * */
+ */
 function getCSSLoaders(devMode, cssModules) {
   return [
     // *** 1st loader ***
@@ -141,7 +137,7 @@ function getCSSLoaders(devMode, cssModules) {
  * @param {Object} runtimeConfig: an object containing variables only known at
  * runtime
  * @returns {Object}: a webpack config object
- * */
+ */
 module.exports = runtimeConfig => {
   const devMode = runtimeConfig.mode === 'development';
 
@@ -179,7 +175,7 @@ module.exports = runtimeConfig => {
       publicPath: '/',
 
       // [contenthash]: change based on the asset's content
-      // Howev er, contenthash will not stay the same between builds even if the
+      // However, contenthash will not stay the same between builds even if the
       // asset's content hasn't changed. To make contenthash deterministic, we
       // need to extract out webpack's runtime and manifest (together
       // "boilerplate"). This can be achieved via the SplitChunksPlugin.
@@ -463,38 +459,27 @@ module.exports = runtimeConfig => {
               chunkFilename: 'static/styles/[id].[contenthash].chunk.css',
             }),
 
-            // *** PWA - Offline Support (production) ***
+            // *** Service Worker (production) ***
             // https://webpack.js.org/guides/progressive-web-application#adding-workbox
-            // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin#injectmanifest_plugin_1
-            // Currently not in use until this issue is fixed in Workbox 5:
-            // https://github.com/GoogleChrome/workbox/issues/1513
-            /*new InjectManifest({
+            // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin#injectmanifest_plugin_2
+            new InjectManifest({
               // Path to the service worker JavaScript file
               swSrc: path.resolve(
                 runtimeConfig.dirname,
-                'src/service-worker.js',
+                runtimeConfig.serviceWorkerFilePath,
               ),
 
-              // Path to the service worker and precache manifest JavaScript
-              // files that will be built. Note that we want to put this file in
-              // the same place as our index.html file.
-              swDest: '../service-worker.js',
-              importsDirectory: '../',
+              // By default, Workbox generates the output as
+              // a 'service-worker.js' file so we don't need to specify swDest.
+              // Note that we want this file to be in the same level as our
+              // index.html file.
 
-              // Since we already configured webpack to cache bust based on
-              // [contenthash], we can tell Workbox to ignore its normal HTTP
-              // cache-busting procedure that's done when populating the
-              // precache.
+              // Since we already configured webpack to cache bust based on a
+              // 20-character [contenthash], we can tell Workbox to ignore its
+              // normal HTTP cache-busting procedure that's done when populating
+              // the precache manifest.
               dontCacheBustURLsMatching: /\.\w{20}\./,
-            }),*/
-            runtimeConfig.serviceWorkerFilePath
-              ? new SWPlugin({
-                  serviceWorkerInputFilePath: path.resolve(
-                    runtimeConfig.dirname,
-                    runtimeConfig.serviceWorkerFilePath,
-                  ),
-                })
-              : () => {}, // Note: 'null' or 'undefined' is not allowed
+            }),
 
             // *** Caching (production) ***
             // Output chunks' hashes could change due to changes in module.id
@@ -661,14 +646,7 @@ module.exports = runtimeConfig => {
             // For production, terser-webpack-plugin is a new JavaScript
             // minifier that uses TerserJS to replace the deprecated UglifyJS.
             // https://github.com/webpack-contrib/terser-webpack-plugin
-            new TerserPlugin({
-              // Enable file caching
-              cache: true,
-
-              // Use multi-process parallel running to improve the build speed.
-              // Default number of concurrent runs is number of cpus - 1.
-              parallel: true,
-            }),
+            new TerserPlugin(),
 
             // For production, cssnano is used to optimise CSS.
             new OptimizeCSSAssetsPlugin({
