@@ -462,24 +462,26 @@ module.exports = runtimeConfig => {
             // *** Service Worker (production) ***
             // https://webpack.js.org/guides/progressive-web-application#adding-workbox
             // https://developers.google.com/web/tools/workbox/modules/workbox-webpack-plugin#injectmanifest_plugin_2
-            new InjectManifest({
-              // Path to the service worker JavaScript file
-              swSrc: path.resolve(
-                runtimeConfig.dirname,
-                runtimeConfig.serviceWorkerFilePath,
-              ),
+            runtimeConfig.serviceWorkerFilePath
+              ? new InjectManifest({
+                  // Path to the service worker JavaScript file
+                  swSrc: path.resolve(
+                    runtimeConfig.dirname,
+                    runtimeConfig.serviceWorkerFilePath,
+                  ),
 
-              // By default, Workbox generates the output as
-              // a 'service-worker.js' file so we don't need to specify swDest.
-              // Note that we want this file to be in the same level as our
-              // index.html file.
+                  // By default, Workbox generates the output as
+                  // a 'service-worker.js' file so we don't need to specify swDest.
+                  // Note that we want this file to be in the same level as our
+                  // index.html file.
 
-              // Since we already configured webpack to cache bust based on a
-              // 20-character [contenthash], we can tell Workbox to ignore its
-              // normal HTTP cache-busting procedure that's done when populating
-              // the precache manifest.
-              dontCacheBustURLsMatching: /\.\w{20}\./,
-            }),
+                  // Since we already configured webpack to cache bust based on a
+                  // 20-character [contenthash], we can tell Workbox to ignore its
+                  // normal HTTP cache-busting procedure that's done when populating
+                  // the precache manifest.
+                  dontCacheBustURLsMatching: /\.\w{20}\./,
+                })
+              : () => {},
 
             // *** Caching (production) ***
             // Output chunks' hashes could change due to changes in module.id
