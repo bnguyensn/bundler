@@ -497,6 +497,10 @@ module.exports = runtimeConfig => {
             // treemap.
             // https://github.com/webpack-contrib/webpack-bundle-analyzer
             new BundleAnalyzerPlugin({
+              // TODO: make this a config option. If this is 'server' it will
+              //  screw up deployments so 'server' should only be used when
+              //  testing build.
+              analyzerMode: 'static',
               // Don't open report in default browser automatically
               openAnalyzer: false,
             }),
