@@ -16,6 +16,7 @@
     "preversion": "prettier --check \"**/*.@(js|ts)\"",
     "postversion": "npm publish",
     "postpublish": "git push origin master",
+    "release": "np",
     "lint": "yarn eslint ."
   },
   "author": "@bnguyensn",
