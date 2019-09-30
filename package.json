@@ -1,6 +1,6 @@
 {
   "name": "@bnguyensn/bundler",
-  "version": "2.5.3",
+  "version": "2.5.4",
   "description": "A single-page React application builder.",
   "main": "index.js",
   "bin": "./bin/bundler.js",
