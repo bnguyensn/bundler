@@ -1,4 +1,4 @@
-node_modules
-__mocks__
-examples
-ignore
+node_modules/*
+__mocks__/*
+examples/*
+ignore/*
