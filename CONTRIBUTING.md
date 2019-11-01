@@ -35,3 +35,7 @@ Flow for merging into main branch:
 Flow for releasing on NPM:
 
 - Run `npm version TYPE`, with `TYPE` being either `major`, `minor`, or `patch`
+
+## Publish
+
+This package is a monorepo and uses [lerna](https://github.com/lerna/lerna) as the monorepo manager.
