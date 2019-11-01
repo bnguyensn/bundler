@@ -1,0 +1,9 @@
+{
+  "name": "@bnguyensn/bundler-utils",
+  "version": "0.1.0",
+  "description": "Utilities for @bnguyensn/bundler",
+  "main": "index.js",
+  "author": "@bnguyensn",
+  "license": "MIT",
+  "private": false
+}

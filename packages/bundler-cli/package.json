@@ -1,0 +1,16 @@
+{
+  "name": "@bnguyensn/bundler-cli",
+  "version": "0.1.0",
+  "description": "CLI for @bnguyensn/bundler",
+  "main": "index.js",
+  "author": "@bnguyensn",
+  "license": "MIT",
+  "private": false,
+  "devDependencies": {
+    "@bnguyensn/logger": "^0.2.0"
+  },
+  "dependencies": {
+    "commander": "^3.0.2",
+    "validate-npm-package-name": "^3.0.0"
+  }
+}
