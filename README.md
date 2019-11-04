@@ -23,6 +23,23 @@ $ npm i -D @bnguyensn/bundler
 $ yarn add -D @bnguyensn/bundler
 ```
 
+## Usage (CLI)
+
+A CLI is provided to scaffold an application.
+
+There is only 1 command:
+
+```bash
+$ npx @bnguyensn/bundler <app-name> [options]
+```
+
+The available options are:
+
+Flag|Shorthand|Description
+:---:|:---:|---
+`--typescript`|`-ts`|Create a project with TypeScript support
+
+
 ## Usage
 
 Add scripts to run the build process in your `package.json`:
