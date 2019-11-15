@@ -42,6 +42,8 @@ Add scripts to run the build process in your `package.json`:
 `npx @bnguyensn/bundler prod`: build for production. Will output built files to
 a `dist` folder.
 
+See the examples folder for project examples.
+
 ## Configuration
 
 Configurations are specified via a `@bnguyensn/bundler` field in the
